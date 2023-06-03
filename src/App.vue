@@ -1,6 +1,6 @@
 <template>
-  <div class="common-layout">
-    <el-container>
+  <div style="height: -webkit-fill-available;">
+    <el-container style="height: -webkit-fill-available;">
       <el-header>
         <el-row :gutter="20">
           <el-col :span="4">

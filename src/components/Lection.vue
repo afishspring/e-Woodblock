@@ -1,29 +1,21 @@
 <template>
-  <div>
-    <el-row class="txtArea">
+  <div class="container">
+    <div id="lasttxt" style="opacity: 0;" :class="[{ txtArea: true }, { currtxt: roll }]">
       <div v-for="(rchar, index) in lastS" :key="index" class="unread">
         {{ rchar }}
       </div>
-    </el-row>
-    <el-row class="txtArea">
-      <div v-for="(rchar, index) in currS" :key="index"
-        :class="{ read: currClass(index), unread: !currClass(index) }">
+    </div>
+    <div id="currtxt" :class="[{ txtArea: true }, { newtxt: roll }]">
+      <div v-for="(rchar, index) in currS" :key="index" :class="{ read: currClass(index), unread: !currClass(index) }">
         {{ rchar }}
       </div>
-
-    </el-row>
-    <el-row class="txtArea">
-      <div v-for="(rchar, index) in nextS" :key="index" class="unread">
-        {{ rchar }}
-      </div>
-    </el-row>
-
+    </div>
   </div>
 </template>
  
 <script setup name="Lection">
 import { ref, reactive, watch, nextTick } from 'vue'
-let childRef=ref(null)
+let childRef = ref(null)
 const lection = `第一品 法会因由分
 
 如是我闻，一时，佛在舍卫国祗树给孤独园，与大比丘众千二百五十人俱。尔时，世尊食时，著衣持钵，
@@ -103,13 +95,13 @@ const currS = ref(sentences[0])
 const nextS = ref(sentences[1])
 
 const index = ref(-1)
-
+const roll = ref(false)
 const play = () => {
   index.value += 1
   const punctuation = /[，。！：“”]/
   console.log(currS.value[index.value])
-  if(punctuation.test(currS.value[index.value])){
-    index.value +=1
+  if (punctuation.test(currS.value[index.value])) {
+    index.value += 1
   }
   if (index.value >= currS.value.length) {
     index.value = -1
@@ -117,6 +109,8 @@ const play = () => {
     lastS.value = currS.value
     currS.value = nextS.value
     nextS.value = sentences[sentenceIndex]
+    rollAnimation()
+
   }
 }
 
@@ -124,26 +118,86 @@ const currClass = (i) => {
   return i <= index.value;
 };
 
-defineExpose({play})
+const rollAnimation = () => {
+  roll.value = true
+  setTimeout(() => {
+    roll.value = false
+
+  }, 1000)
+
+}
+defineExpose({ play })
 </script>
 
 <style scoped>
+.container {
+  height: 100vh;
+  display: grid;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px;
+}
+
 .txtArea {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+}
+
+.currtxt {
+  animation: fade-out 0.7s forwards;
+}
+
+.newtxt {
+  opacity: 0;
+  animation: fade-in 0.7s forwards;
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-letter {
+  0% {
+    color: #737373;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  100% {
+    color: #FFFFFF;
+    text-shadow: -33px 7px 9px rgba(255, 255, 255, 0.01), -21px 4px 9px rgba(255, 255, 255, 0.07), -12px 2px 7px rgba(255, 255, 255, 0.25), -5px 1px 5px rgba(255, 255, 255, 0.43), -1px 0px 3px rgba(255, 255, 255, 0.49), 0px 0px 0px rgba(255, 255, 255, 0.5);
+  }
 }
 
 .read {
   font-family: 'STXihei';
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 33px;
   letter-spacing: 0.16em;
-
+  animation: fade-in-letter linear 0.2s forwards;
   color: #FFFFFF;
-
   text-shadow: -33px 7px 9px rgba(255, 255, 255, 0.01), -21px 4px 9px rgba(255, 255, 255, 0.07), -12px 2px 7px rgba(255, 255, 255, 0.25), -5px 1px 5px rgba(255, 255, 255, 0.43), -1px 0px 3px rgba(255, 255, 255, 0.49), 0px 0px 0px rgba(255, 255, 255, 0.5);
 }
 
@@ -151,7 +205,7 @@ defineExpose({play})
   font-family: 'STXihei';
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 33px;
   letter-spacing: 0.16em;
 
