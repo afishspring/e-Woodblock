@@ -1,130 +1,162 @@
 <template>
-  <div class="hello">
-    <audio :src="music" @timeupdate="audioTime" controls></audio>
-    <div :class="className" :style="{ 'animation-duration': `${lrcTime}000ms` }">
-      {{ dataWords }}
-    </div>
+  <div>
+    <el-row class="txtArea">
+      <div v-for="(rchar, index) in lastS" :key="index" class="unread">
+        {{ rchar }}
+      </div>
+    </el-row>
+    <el-row class="txtArea">
+      <div v-for="(rchar, index) in currS" :key="index"
+        :class="{ read: currClass(index), unread: !currClass(index) }">
+        {{ rchar }}
+      </div>
+
+    </el-row>
+    <el-row class="txtArea">
+      <div v-for="(rchar, index) in nextS" :key="index" class="unread">
+        {{ rchar }}
+      </div>
+    </el-row>
+
   </div>
 </template>
  
-<script>
-import music from "../assets/music.mp3";
-export default {
-  data() {
-    return {
-      className: "text load",
-      lrcTime: "",
-      music,
-      currenttime: "",
-      LRC: `[00:00.000] 作词 : 周耀辉/李焯雄
-[00:01.000] 作曲 : 林健华
-[00:02.000] 编曲 : 林健华
-[00:15.000]忽然之间
-[00:18.000]天昏地暗
-[00:21.000]世界可以忽然什么都没有
-[00:28.000]我想起了你
-[00:32.000]再想到自己
-[00:35.000]我为什么总在非常脆弱的时候
-[00:40.000]怀念你
-[00:43.000]''
-[00:44.000]我明白太放不开你的爱
-[00:49.000]太熟悉你的关怀分不开
-[00:54.000]想你算是安慰还是悲哀
-[00:58.000]而现在就算时针都停摆
-[01:03.000]就算生命像尘埃分不开
-[01:08.000]我们也许反而更相信爱
-[01:24.000]''
-[01:25.000]如果这天地
-[01:29.000]最终会消失
-[01:32.000]不想一路走来珍惜的回忆
-[01:38.000]没有你
-[01:40.000]''
-[01:41.000]我明白太放不开你的爱
-[01:46.000]太熟悉你的关怀分不开
-[01:51.000]想你算是安慰还是悲哀
-[01:55.000]而现在就算时针都停摆
-[02:00.000]就算生命像尘埃分不开
-[02:05.000]我们也许反而更相信爱
-[02:34.000]''
-[02:35.000]我明白太放不开你的爱
-[02:40.000]太熟悉你的关怀分不开
-[02:45.000]想你算是安慰还是悲哀
-[02:49.000]而现在就算时针都停摆
-[02:54.000]就算生命像尘埃分不开
-[03:00.000]我们也许反而更相信爱`,
-      lrcData: "",
-      dataWords: "",
-    };
-  },
-  name: "HelloWorld",
-  methods: {
-    //歌词数据转化为数组
-    formatLrc() {
-      var strLrc = this.LRC.split("\n");
-      let arr = [];
-      for (var i = 0; i < strLrc.length; i++) {
-        var str = strLrc[i];
-        var parts = str.split("]");
-        var timeStr = parts[0].substring(1);
-        var obj = {
-          time: this.formatTime(timeStr),
-          words: parts[1],
-        };
-        arr.push(obj);
-      }
-      this.lrcData = arr;
-    },
-    //时间转换（秒）
-    formatTime(time) {
-      var parts = time.split(":"); //[03:00.000]==>[03,00.00]
-      return +parts[0] * 60 + +parts[1]; //计算秒
-    },
-    audioTime(e) {
-      var time = e.target.currentTime; //当前播放器时间
-      for (var i = 0; i < this.lrcData.length; i++) {
-        if (time < this.lrcData[i].time) {
-          //循环歌词数组，当播放器当前时间第一次小于歌词时间时当前数组下标减一即为当前时间数组所对应歌词下标
-          this.lrcTime = this.lrcData[i].time - this.lrcData[i - 1].time;
-          this.dataWords = this.lrcData[i - 1].words;
-          return i - 1;
+<script setup name="Lection">
+import { ref, reactive, watch, nextTick } from 'vue'
+let childRef=ref(null)
+const lection = `第一品 法会因由分
+
+如是我闻，一时，佛在舍卫国祗树给孤独园，与大比丘众千二百五十人俱。尔时，世尊食时，著衣持钵，
+
+入舍卫大城乞食。于其城中，次第乞已，还至本处。饭食讫，收衣钵，洗足已，敷座而坐。
+
+　
+
+第二品 善现启请分
+
+时，长老须菩提在大众中即从座起，偏袒右肩，右膝着地，合掌恭敬而白佛言：“希有！世尊！如来善护念
+
+诸菩萨，善付嘱诸菩萨。世尊！善男子、善女人，发阿耨多罗三藐三菩提心，应云何住，云何降伏其心？
+
+”佛言：“善哉，善哉。须菩提！如汝所说，如来善护念诸菩萨，善付嘱诸菩萨。汝今谛听！当为汝说：善
+
+男子、善女人，发阿耨多罗三藐三菩提心，应如是住，如是降伏其心。”“唯然，世尊！愿乐欲闻。”
+
+　
+
+第三品 大乘正宗分
+
+佛告须菩提：“诸菩萨摩诃萨应如是降伏其心！所有一切众生之类：若卵生、若胎生、若湿生、若化生；若
+
+有色、若无色；若有想、若无想、若非有想非无想，我皆令入无余涅盘而灭度之。如是灭度无量无数无边
+
+众生，实无众生得灭度者。何以故？须菩提！若菩萨有我相、人相、众生相、寿者相，即非菩萨。”`
+
+function splitSentence(inputText) {
+  const punctuations = /[,.，。？！：；]/;
+  const maxSentenceLength = 10;
+  const maxConcatLength = 15;
+
+  const sentences = [];
+  let currentSentence = "";
+
+  inputText = inputText.replace(/\s+|["'“”‘’]/g, '');
+
+  for (let i = 0; i < inputText.length; i++) {
+    const char = inputText.charAt(i);
+    currentSentence += char;
+
+    if (char.match(punctuations)) {
+      if (currentSentence.length > maxSentenceLength) {
+        sentences.push(currentSentence.trim());
+        currentSentence = "";
+      } else {
+        const nextChar = inputText.charAt(i + 1);
+        if (nextChar && nextChar.match(punctuations)) {
+          if ((currentSentence + nextChar).length > maxConcatLength) {
+            sentences.push(currentSentence.trim());
+            currentSentence = "";
+          } else {
+            currentSentence += nextChar;
+            i++;
+          }
         }
       }
-    },
-  },
-  watch: {
-    dataWords() {
-      this.className = "text";
-      setTimeout(() => {
-        this.className = "text load";
-      }, 50);
-    },
-  },
-  mounted() {
-    this.formatLrc();
-  },
+    }
+  }
+  if (currentSentence.length > 0) {
+    sentences.push(currentSentence.trim());
+  }
+  return sentences.map(sentence => {
+    const splitChars = [];
+    for (let i = 0; i < sentence.length; i++) {
+      splitChars.push(sentence[i]);
+    }
+    return splitChars;
+  })
+}
+const sentences = splitSentence(lection)
+
+var sentenceIndex = 1
+const lastS = ref(["       "])
+const currS = ref(sentences[0])
+const nextS = ref(sentences[1])
+
+const index = ref(-1)
+
+const play = () => {
+  index.value += 1
+  const punctuation = /[，。！：“”]/
+  console.log(currS.value[index.value])
+  if(punctuation.test(currS.value[index.value])){
+    index.value +=1
+  }
+  if (index.value >= currS.value.length) {
+    index.value = -1
+    sentenceIndex += 1
+    lastS.value = currS.value
+    currS.value = nextS.value
+    nextS.value = sentences[sentenceIndex]
+  }
+}
+
+const currClass = (i) => {
+  return i <= index.value;
 };
-</script> 
+
+defineExpose({play})
+</script>
+
 <style scoped>
-@keyframes scan {
-  0% {
-    background-size: 0 100%;
-  }
-
-  100% {
-    background-size: 100% 100%;
-  }
+.txtArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.text {
-  background: #7e7e7e -webkit-linear-gradient(left, #76ca16, #0fa046) no-repeat 0 0;
-  /* -webkit-text-fill-color: transparent; */
-  -webkit-background-clip: text;
-  background-size: 0 100%;
-  color: aqua;
+.read {
+  font-family: 'STXihei';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 33px;
+  letter-spacing: 0.16em;
+
+  color: #FFFFFF;
+
+  text-shadow: -33px 7px 9px rgba(255, 255, 255, 0.01), -21px 4px 9px rgba(255, 255, 255, 0.07), -12px 2px 7px rgba(255, 255, 255, 0.25), -5px 1px 5px rgba(255, 255, 255, 0.43), -1px 0px 3px rgba(255, 255, 255, 0.49), 0px 0px 0px rgba(255, 255, 255, 0.5);
 }
 
-/* .load {
-  background-size: 100% 100%;
-  animation: scan linear;
-} */
+.unread {
+  font-family: 'STXihei';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 33px;
+  letter-spacing: 0.16em;
+
+  color: #737373;
+
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
 </style>

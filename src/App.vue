@@ -15,7 +15,7 @@
       <el-footer>
         <el-row :gutter="20">
           <el-col :span="4">
-            <el-button color="#273435" size="large" :icon="Setting" @click="menuDrawer = true" />
+            <el-button color="#273435" size="large" :icon="Operation" @click="menuDrawer = true" />
           </el-col>
           <el-col :span="16"></el-col>
           <el-col :span="4">
@@ -31,7 +31,7 @@
 import HomePage from './components/HomePage.vue'
 import WoodBlock from './components/WoodBlock.vue'
 import {
-  Setting,
+  Operation,
   User
 } from '@element-plus/icons-vue'
 </script>
