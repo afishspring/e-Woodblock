@@ -1,13 +1,15 @@
 <template>
-  <div>
+  <div >
     <el-row class="txtArea">
       <div v-for="(rchar, index) in lastS" :key="index" class="unread">
         {{ rchar }}
       </div>
     </el-row>
-    <el-row class="txtArea">
+
+    <el-row class="txtArea" id="divContainer">
       <div v-for="(rchar, index) in currS" :key="index"
-        :class="{ read: currClass(index), unread: !currClass(index) }">
+        :class="{ read: currClass(index), 
+          unread: !currClass(index) }">
         {{ rchar }}
       </div>
 
@@ -51,9 +53,20 @@ const lection = `第一品 法会因由分
 有色、若无色；若有想、若无想、若非有想非无想，我皆令入无余涅盘而灭度之。如是灭度无量无数无边
 
 众生，实无众生得灭度者。何以故？须菩提！若菩萨有我相、人相、众生相、寿者相，即非菩萨。”`
+const divContainer = ref(null)
+
+const changeWidth=()=>{
+  const divElement = document.getElementById("divContainer")
+  divElement.className="txtArea-2"
+}
+
+const restoreWidth=()=>{
+  const divElement = document.getElementById("divContainer")
+  divElement.className="txtArea"
+}
 
 function splitSentence(inputText) {
-  const punctuations = /[,.，。？！：；]/;
+  const punctuations = /[,.，。？！：；、]/;
   const maxSentenceLength = 10;
   const maxConcatLength = 15;
 
@@ -64,9 +77,16 @@ function splitSentence(inputText) {
 
   for (let i = 0; i < inputText.length; i++) {
     const char = inputText.charAt(i);
-    currentSentence += char;
-
-    if (char.match(punctuations)) {
+    let ifAddSpace =  false;
+    if(char.match(punctuations)){
+      currentSentence+="\xa0 \xa0"
+      ifAddSpace = true;
+    }
+    else
+      currentSentence+=char
+    // currentSentence += char;
+    //如果此时检测到的字符为标点符号
+    if (ifAddSpace) {
       if (currentSentence.length > maxSentenceLength) {
         sentences.push(currentSentence.trim());
         currentSentence = "";
@@ -95,6 +115,7 @@ function splitSentence(inputText) {
     return splitChars;
   })
 }
+
 const sentences = splitSentence(lection)
 
 var sentenceIndex = 1
@@ -106,10 +127,9 @@ const index = ref(-1)
 
 const play = () => {
   index.value += 1
-  const punctuation = /[，。！：“”]/
-  console.log(currS.value[index.value])
-  if(punctuation.test(currS.value[index.value])){
-    index.value +=1
+  const punctuation = /[\xa0]/
+  if(punctuation.test(currS.value[index.value+1])){
+    index.value +=3
   }
   if (index.value >= currS.value.length) {
     index.value = -1
@@ -118,6 +138,20 @@ const play = () => {
     currS.value = nextS.value
     nextS.value = sentences[sentenceIndex]
   }
+  let font_number=0
+  for (let i = 0; i < currS.value.length; i++) {
+    if (currS.value[i] == '\xa0') {
+      font_number += 0.5;
+    } else {
+      font_number += 1;
+    }
+  }
+  console.log(font_number)
+  if(font_number>=14)
+     changeWidth()
+  else
+      restoreWidth()
+
 }
 
 const currClass = (i) => {
@@ -133,6 +167,14 @@ defineExpose({play})
   justify-content: center;
   align-items: center;
 }
+.txtArea-2 {
+  display: block;
+  width:60%;
+  left: 50%;
+  position: relative;
+  transform: translateX(-50%);
+}
+
 
 .read {
   font-family: 'STXihei';
@@ -141,7 +183,8 @@ defineExpose({play})
   font-size: 24px;
   line-height: 33px;
   letter-spacing: 0.16em;
-
+  transition: opacity 100s;
+  display: inline-block;
   color: #FFFFFF;
 
   text-shadow: -33px 7px 9px rgba(255, 255, 255, 0.01), -21px 4px 9px rgba(255, 255, 255, 0.07), -12px 2px 7px rgba(255, 255, 255, 0.25), -5px 1px 5px rgba(255, 255, 255, 0.43), -1px 0px 3px rgba(255, 255, 255, 0.49), 0px 0px 0px rgba(255, 255, 255, 0.5);
@@ -154,7 +197,7 @@ defineExpose({play})
   font-size: 24px;
   line-height: 33px;
   letter-spacing: 0.16em;
-
+  display: inline-block;
   color: #737373;
 
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
