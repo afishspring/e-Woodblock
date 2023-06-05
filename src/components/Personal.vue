@@ -7,15 +7,19 @@
       </div>
       <div class="flexBox">
         <el-image :src="historyImg" fit="contain" />
-        <el-text size="large" class="function">正念历史</el-text>
+        <router-link class="function" to="/history">正念历史</router-link>
       </div>
       <div class="flexBox">
         <el-image :src="settingImg" fit="contain" />
-        <el-text size="large" class="function">设置</el-text>
+        <router-link class="function" to="/setting">设置</router-link>
       </div>
       <div class="flexBox">
         <el-image :src="helpImg" fit="contain" />
-        <el-text size="large" class="function">帮助</el-text>
+        <router-link class="function" to="/help">帮助</router-link>
+      </div>
+      <div class="flexBox">
+        <el-image :src="storeImg" fit="contain" />
+        <router-link class="function" to="/store">商店</router-link>
       </div>
     </div>
     <div>
@@ -31,6 +35,7 @@ import { reactive, toRefs } from 'vue'
 import historyImg from '../assets/history.png'
 import settingImg from '../assets/setting.png'
 import helpImg from '../assets/help.png'
+import storeImg from '../assets/store.png'
 
 const state = reactive({
   circleUrl:
@@ -62,7 +67,7 @@ const { circleUrl } = toRefs(state)
 }
 
 .name {
-  margin:10px 0px;
+  margin: 10px 0px;
   font-family: 'Microsoft YaHei UI';
   font-style: normal;
   font-weight: 400;
@@ -77,7 +82,7 @@ const { circleUrl } = toRefs(state)
 }
 
 .function {
-  margin:10px 0px;
+  margin: 10px 0px;
   font-family: 'Microsoft YaHei UI';
   font-style: normal;
   font-weight: 400;

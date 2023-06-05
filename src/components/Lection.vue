@@ -67,7 +67,6 @@ const checkWidthStatus = () => {
       font_number += 1;
     }
   }
-  console.log(font_number)
   if (font_number >= 14)
     changeWidth()
   else
