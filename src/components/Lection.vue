@@ -1,11 +1,12 @@
 <template>
   <div class="container">
-    <div id="lasttxt" style="opacity: 0;" :class="[{ txtArea: true }, { currtxt: roll }]">
+    <div id="lasttxt" style="opacity: 0;"
+      :class="[{ txtArea: lastWidthStatus }, { 'txtArea-2': !lastWidthStatus }, { currtxt: roll }]">
       <div v-for="(rchar, index) in lastS" :key="index" class="unread">
         {{ rchar }}
       </div>
     </div>
-    <div id="currtxt" :class="[{ txtArea: true }, { newtxt: roll }]">
+    <div id="currtxt" :class="[{ txtArea: currWidthStatus }, { 'txtArea-2': !currWidthStatus }, { newtxt: roll }]">
       <div v-for="(rchar, index) in currS" :key="index" :class="{ read: currClass(index), unread: !currClass(index) }">
         {{ rchar }}
       </div>
@@ -43,9 +44,39 @@ const lection = `第一品 法会因由分
 有色、若无色；若有想、若无想、若非有想非无想，我皆令入无余涅盘而灭度之。如是灭度无量无数无边
 
 众生，实无众生得灭度者。何以故？须菩提！若菩萨有我相、人相、众生相、寿者相，即非菩萨。”`
+// 检测当前语句的字数，调整滚动文字区域宽度
+const lastWidthStatus = ref(true)
+const currWidthStatus = ref(true)
 
+const changeWidth = () => {
+  lastWidthStatus.value = currWidthStatus.value
+  currWidthStatus.value = false
+}
+
+const restoreWidth = () => {
+  lastWidthStatus.value = currWidthStatus.value
+  currWidthStatus.value = true
+}
+
+const checkWidthStatus = () => {
+  let font_number = 0
+  for (let i = 0; i < currS.value.length; i++) {
+    if (currS.value[i] == '\xa0') {
+      font_number += 0.5;
+    } else {
+      font_number += 1;
+    }
+  }
+  console.log(font_number)
+  if (font_number >= 14)
+    changeWidth()
+  else
+    restoreWidth()
+}
+
+// 分割源文本
 function splitSentence(inputText) {
-  const punctuations = /[,.，。？！：；]/;
+  const punctuations = /[,.，。？！：；、]/;
   const maxSentenceLength = 10;
   const maxConcatLength = 15;
 
@@ -56,9 +87,16 @@ function splitSentence(inputText) {
 
   for (let i = 0; i < inputText.length; i++) {
     const char = inputText.charAt(i);
-    currentSentence += char;
-
+    let ifAddSpace = false;
     if (char.match(punctuations)) {
+      currentSentence += "\xa0 \xa0"
+      ifAddSpace = true;
+    }
+    else
+      currentSentence += char
+    // currentSentence += char;
+    //如果此时检测到的字符为标点符号
+    if (ifAddSpace) {
       if (currentSentence.length > maxSentenceLength) {
         sentences.push(currentSentence.trim());
         currentSentence = "";
@@ -87,6 +125,7 @@ function splitSentence(inputText) {
     return splitChars;
   })
 }
+
 const sentences = splitSentence(lection)
 
 var sentenceIndex = 1
@@ -96,21 +135,22 @@ const nextS = ref(sentences[1])
 
 const index = ref(-1)
 const roll = ref(false)
+
 const play = () => {
   index.value += 1
-  const punctuation = /[，。！：“”]/
-  console.log(currS.value[index.value])
-  if (punctuation.test(currS.value[index.value])) {
-    index.value += 1
+  const punctuation = /[\xa0]/
+  if (punctuation.test(currS.value[index.value + 1])) {
+    index.value += 3
   }
+
   if (index.value >= currS.value.length) {
     index.value = -1
     sentenceIndex += 1
     lastS.value = currS.value
     currS.value = nextS.value
     nextS.value = sentences[sentenceIndex]
+    checkWidthStatus()
     rollAnimation()
-
   }
 }
 
@@ -142,6 +182,12 @@ defineExpose({ play })
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+}
+
+.txtArea-2 {
+  display: block;
+  width: 60%;
   position: absolute;
 }
 
@@ -196,6 +242,7 @@ defineExpose({ play })
   font-size: 20px;
   line-height: 33px;
   letter-spacing: 0.16em;
+  display: inline-block;
   animation: fade-in-letter linear 0.2s forwards;
   color: #FFFFFF;
   text-shadow: -33px 7px 9px rgba(255, 255, 255, 0.01), -21px 4px 9px rgba(255, 255, 255, 0.07), -12px 2px 7px rgba(255, 255, 255, 0.25), -5px 1px 5px rgba(255, 255, 255, 0.43), -1px 0px 3px rgba(255, 255, 255, 0.49), 0px 0px 0px rgba(255, 255, 255, 0.5);
@@ -208,7 +255,7 @@ defineExpose({ play })
   font-size: 20px;
   line-height: 33px;
   letter-spacing: 0.16em;
-
+  display: inline-block;
   color: #737373;
 
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
