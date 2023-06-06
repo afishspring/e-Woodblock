@@ -12,10 +12,13 @@ import woodblockImg from '../assets/Woodblock.png'
 import notion from './Notion.vue'
 import Lection from './Lection.vue'
 import { ref } from 'vue'
+import woodblockMusic from '../assets/wood-block-single-hit.mp3'
 const time = "21:25"
 let childRef = ref(null)
 const fn = () => {
   childRef.value.play()
+  const audio = new Audio(woodblockMusic)
+  audio.play()
 }
 </script>
 
@@ -34,8 +37,8 @@ const fn = () => {
 }
 
 .woodblockStyle {
-  width: 80%;
-  height: 80%;
+  width: 80vw;
+  height: 60vw;
   margin: auto;
   position: absolute;
   top: 0;
