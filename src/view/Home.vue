@@ -14,11 +14,11 @@
       <el-footer>
         <el-row :gutter="20">
           <el-col :span="4">
-            <el-button color="#273435" size="large" :icon="Operation" @click="menuDrawer = true" />
+            <AdjustmentPage/>
           </el-col>
           <el-col :span="16"></el-col>
           <el-col :span="4">
-            <img :src="buddha" @click="menuDrawer = true" />
+            <el-button color="#273435" size="large" :icon="User" />
           </el-col>
         </el-row>
       </el-footer>
@@ -29,11 +29,9 @@
 <script setup>
 import HomePage from '@/components/HomePage.vue'
 import WoodBlock from '@/components/WoodBlock.vue'
-import {
-  Operation,
-  User
-} from '@element-plus/icons-vue'
-import buddha from '@/assets/Buddha.png'
+import { User } from "@element-plus/icons-vue";
+import AdjustmentPage from "@/components/AdjustmentPage.vue"
+
 </script>
 
 <style scoped></style>

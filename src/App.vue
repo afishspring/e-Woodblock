@@ -1,5 +1,5 @@
 <template>
-  <router-view />
+  <router-view/>
 </template>
 
 <script setup name="App">
@@ -17,6 +17,5 @@ body,
   -moz-osx-font-smoothing: grayscale;
   color: #fff;
   background-color: #273435;
-  text-align: center;
 }
 </style>
