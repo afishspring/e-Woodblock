@@ -7,7 +7,6 @@
             <HomePage />
           </el-col>
         </el-row>
-
       </el-header>
       <el-main>
         <WoodBlock />
@@ -19,7 +18,7 @@
           </el-col>
           <el-col :span="16"></el-col>
           <el-col :span="4">
-            <el-button color="#273435" size="large" :icon="User" @click="menuDrawer = true" />
+            <img :src="buddha" @click="menuDrawer = true" />
           </el-col>
         </el-row>
       </el-footer>
@@ -34,6 +33,7 @@ import {
   Operation,
   User
 } from '@element-plus/icons-vue'
+import buddha from '@/assets/Buddha.png'
 </script>
 
 <style scoped></style>
