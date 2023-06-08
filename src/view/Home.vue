@@ -14,7 +14,7 @@
       <el-footer>
         <el-row :gutter="20">
           <el-col :span="4">
-            <AdjustmentPage/>
+            <AdjustmentPage ref="adjComp" @menuDrawerClosed="onMenuDrawerClosed"/>
           </el-col>
           <el-col :span="16"></el-col>
           <el-col :span="4">
@@ -27,10 +27,21 @@
 </template>
 
 <script setup>
+import {ref, watch, toRefs} from 'vue'
 import HomePage from '@/components/HomePage.vue'
 import WoodBlock from '@/components/WoodBlock.vue'
-import { User } from "@element-plus/icons-vue";
-import AdjustmentPage from "@/components/AdjustmentPage.vue"
+import { User } from "@element-plus/icons-vue"
+import AdjustmentPage from "@/view/AdjustmentPage.vue"
+
+
+const adjComp = ref(null)
+
+const onMenuDrawerClosed=()=>{
+  let msg = adjComp.value.ifAuto
+  //👇
+  //可以从这里获取数据
+}
+
 
 </script>
 
