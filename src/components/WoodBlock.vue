@@ -3,6 +3,7 @@
     <Lection ref='childRef' style="height: 33.33vh;"/>
     <div></div>
     <notion/>
+    <button @click="play">auto</button>
   </div>
   <el-image class="woodblockStyle" :src="woodblockImg" fit="contain" @click="fn" />
 </template>
@@ -12,6 +13,7 @@ import woodblockImg from '../assets/Woodblock.png'
 import notion from './Notion.vue'
 import Lection from './Lection.vue'
 import { ref } from 'vue'
+import {defineProps,getCurrentInstance } from "vue"
 import woodblockMusic from '../assets/wood-block-single-hit.mp3'
 const time = "21:25"
 let childRef = ref(null)
@@ -19,6 +21,23 @@ const fn = () => {
   childRef.value.play()
   const audio = new Audio(woodblockMusic)
   audio.play()
+}
+const props = defineProps({
+  ifAuto:{
+    type: Boolean,
+    default: false
+  }
+})
+
+const play = ()=>{
+  if(props.ifAuto==true){
+    let interval=setInterval(() => {
+      fn()
+      if(props.ifAuto==false){
+        clearInterval(interval)
+      }
+    }, 1000);
+  }
 }
 </script>
 

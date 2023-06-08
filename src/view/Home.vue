@@ -9,12 +9,12 @@
         </el-row>
       </el-header>
       <el-main>
-        <WoodBlock />
+        <WoodBlock :ifAuto="ifAuto" />
       </el-main>
       <el-footer>
         <el-row :gutter="20">
           <el-col :span="4">
-            <AdjustmentPage ref="adjComp" @menuDrawerClosed="onMenuDrawerClosed"/>
+            <AdjustmentPage ref="adjComp" @menuDrawerClosed="onMenuDrawerClosed" />
           </el-col>
           <el-col :span="16"></el-col>
           <el-col :span="4">
@@ -27,7 +27,8 @@
 </template>
 
 <script setup>
-import {ref, watch, toRefs} from 'vue'
+
+import { ref, defineProps } from 'vue'
 import HomePage from '@/components/HomePage.vue'
 import WoodBlock from '@/components/WoodBlock.vue'
 import { User } from "@element-plus/icons-vue"
@@ -36,8 +37,11 @@ import AdjustmentPage from "@/view/AdjustmentPage.vue"
 
 const adjComp = ref(null)
 
-const onMenuDrawerClosed=()=>{
-  let msg = adjComp.value.ifAuto
+const ifAuto = ref(false)
+
+const onMenuDrawerClosed = () => {
+  ifAuto.value = adjComp.value.ifAuto
+  console.log(ifAuto.value)
   //👇
   //可以从这里获取数据
 }

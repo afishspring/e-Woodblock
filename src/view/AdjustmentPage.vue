@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-import { defineEmits,defineExpose, ref, watch,getCurrentInstance } from 'vue'
+import { defineEmits,defineExpose,ref, watch,getCurrentInstance } from 'vue'
 import { Operation } from "@element-plus/icons-vue"
 
 
@@ -85,6 +85,8 @@ watch(menuDrawer, (newVal) => {
     emits('menuDrawerClosed');
   }
 });
+
+
 
 const columns1 = [
   { text: '1', value: '1' },
@@ -133,7 +135,7 @@ const fieldValue3 = ref('金刚经')
 const fieldValue4 = ref('循环佛经')
 const fieldValue5 = ref('无')
 const fieldValue6 = ref('音效1')
-const ifAuto = ref(true)
+const ifAuto = ref(false)
 const showPicker1 = ref(false)
 const showPicker2 = ref(false)
 const showPicker3 = ref(false)
