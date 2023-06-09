@@ -1,20 +1,20 @@
 <template>
   <div class="container">
     <div class="counterContainer">
-      <div class="counter" v-show="mindfulModel" @click="timerModel=true">
+      <div class="counter" v-show="mindfulModel" @click="timerModel = true">
         <img :src="countup">
       </div>
-      <div class="counter" v-show="mindfulModel" @click="timerModel=false">
+      <div class="counter" v-show="mindfulModel" @click="timerModel = false">
         <img :src="countdown">
       </div>
     </div>
 
     <div>
       <div v-show="mindfulModel">
-        <Lection ref='childRef' style="height: 33.33vh;" />
+        <Lection :mindfulModel="props.mindfulModel" ref='childRef' style="height: 33.33vh;" />
       </div>
       <div v-show="!mindfulModel">
-        <div class="summary" v-text="'您已经正念了 '+mindfulTime+' 分钟'"></div>
+        <div class="summary" v-text="'您已经正念了 ' + mindfulTime + ' 分钟'"></div>
       </div>
     </div>
 
@@ -24,16 +24,15 @@
         <notion />
       </div>
       <div v-else>
-        <timer :countModel="timerModel"/>
+        <timer :countModel="timerModel" />
       </div>
     </div>
-    <button @click="play">auto</button>
   </div>
   <el-image class="woodblockStyle" :src="woodblockImg" fit="contain" @click="fn" />
 </template>
 
 <script setup name="WoodBlock">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { defineProps, getCurrentInstance } from "vue"
 
 import woodblockImg from '@/assets/Woodblock.png'
@@ -43,36 +42,76 @@ import notion from '@/components/Notion.vue'
 import timer from '@/components/Timer.vue'
 import Lection from '@/components/Lection.vue'
 import woodblockMusic from '@/assets/wood-block-single-hit.mp3'
-const timerModel=ref(false)
+const timerModel = ref(false)
 const mindfulTime = ref(25)
 
 let childRef = ref(null)
 const fn = () => {
-  childRef.value.play()
-  const audio = new Audio(woodblockMusic)
-  audio.play()
+  if (props.mindfulModel == true) {
+    childRef.value.play()
+    const audio = new Audio(woodblockMusic)
+    audio.play()
+  }
 }
 const props = defineProps({
+  // 是否自动敲击
   ifAuto: {
     type: Boolean,
     default: false
   },
+  // 是否进入专注模式（开始计时）
   mindfulModel: {
     type: Boolean,
     default: false
   }
 })
+let interval = null; // 声明 interval 变量
 
-const play = () => {
-  if (props.ifAuto == true) {
-    let interval = setInterval(() => {
-      fn()
-      if (props.ifAuto == false) {
-        clearInterval(interval)
+
+// 监听用户是否进入专注页面
+// mindfulModel: boolean, true表示用户进入
+// 用户进入专注页面后，根据其是否选择自动模式来选择是否自动敲击
+// 后期开发逻辑可能更改
+watch(() => props.mindfulModel, (newValue) => {
+  if (newValue == true) {
+    if (props.ifAuto == true) {
+      if (interval) {
+        clearInterval(interval);
       }
-    }, 1000);
+      interval = setInterval(() => {
+        fn()
+        if (props.ifAuto == false) {
+          clearInterval(interval)
+        }
+      }, 1000);
+    }
   }
-}
+  else {
+    clearInterval(interval)
+
+  }
+}), { immediate: true }
+
+// 监听用户是否开启自动模式
+// 当用户已进入专注页面时，开启自动模式后将自动敲击
+watch(() => props.ifAuto,(newValue)=>{
+  if(newValue==true){
+    if(props.mindfulModel==true){
+      if (interval) {
+        clearInterval(interval); // 清除旧的 interval
+      }
+      interval = setInterval(() => {
+        fn()
+        if (props.ifAuto == false) {
+          clearInterval(interval)
+        }
+      }, 1000)
+    }
+  }
+  else{
+    clearInterval(interval)
+  }
+})
 </script>
 
 <style scoped>

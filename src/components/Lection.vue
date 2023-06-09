@@ -15,7 +15,9 @@
 </template>
  
 <script setup name="Lection">
+import { progressProps } from 'element-plus';
 import { ref, reactive, watch, nextTick } from 'vue'
+import { onMounted } from 'vue';
 let childRef = ref(null)
 const lection = `第一品 法会因由分
 
@@ -94,7 +96,7 @@ function splitSentence(inputText) {
     else
       currentSentence += char
     // currentSentence += char;
-    //如果此时检测到的字符为标点符号
+    // 如果此时检测到的字符为标点符号
     if (ifAddSpace) {
       if (currentSentence.length > maxSentenceLength) {
         sentences.push(currentSentence.trim());
@@ -135,6 +137,25 @@ const nextS = ref(sentences[1])
 const index = ref(-1)
 const roll = ref(false)
 
+// 接收来自WoodBlockd的属性
+const props = defineProps({
+  mindfulModel:{
+    type: Boolean,
+    default: true
+  }
+})
+ 
+// 用户重新进入专注页面时，经文重置
+watch(() => props.mindfulModel, (newValue, oldValue) =>{
+  sentenceIndex = 1
+  index.value = -1
+  lastS.value = ["       "]
+  currS.value = sentences[0]
+  nextS.value = sentences[1]
+}),{ immediate: true }
+
+
+
 const play = () => {
   index.value += 1
   const punctuation = /[\xa0]/
@@ -166,6 +187,8 @@ const rollAnimation = () => {
 
 }
 defineExpose({ play })
+
+
 </script>
 
 <style scoped>

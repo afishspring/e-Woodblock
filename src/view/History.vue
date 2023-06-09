@@ -50,7 +50,7 @@ export default defineComponent({
   },
   methods: {
     goToHomePage() {
-      this.$router.push("/home");
+      this.$router.push({ name: 'home' });
     },
   },
 });

@@ -1,5 +1,5 @@
 <template>
-  <el-button color="#273435" size="large" :icon="Operation" @click="menuDrawer = true" />
+    <img src="../assets/adjustment.png" @click="menuDrawer = true">
   <el-drawer class="ad-drawer" v-model="menuDrawer" title="I am the title" :with-header="false" direction="btt"
     size="85.75%" style="background-color: #445E60;border-radius: 10px">
     <div class="setting-box">
@@ -74,7 +74,6 @@
 
 <script setup>
 import { defineEmits,defineExpose,ref, watch,getCurrentInstance } from 'vue'
-import { Operation } from "@element-plus/icons-vue"
 
 
 const menuDrawer = ref(false)
@@ -181,7 +180,6 @@ defineExpose({
 </script>
 
 <style scoped>
-.setting-box {}
 
 #button-group1 {
   position: relative;

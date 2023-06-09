@@ -11,7 +11,7 @@
         </el-row>
       </el-header>
       <el-main>
-        <WoodBlock :ifAuto="ifAuto" :mindful-model="mindfulModel"/>
+        <WoodBlock :mindfulModel="mindfulModel" :ifAuto="ifAuto" :mindful-model="mindfulModel"/>
       </el-main>
       <el-footer>
         <el-row :gutter="20">
@@ -34,7 +34,7 @@ import { ref, defineProps } from 'vue'
 import HomePage from '@/components/HomePage.vue'
 import WoodBlock from '@/components/WoodBlock.vue'
 import { User } from "@element-plus/icons-vue"
-import AdjustmentPage from "@/components/AdjustmentPage.vue"
+import AdjustmentPage from "@/view/AdjustmentPage.vue"
 import buddha from "@/assets/Buddha.png"
 import exit from "@/assets/exit.png"
 
@@ -44,13 +44,15 @@ const ifAuto = ref(false)
 
 const onMenuDrawerClosed = () => {
   ifAuto.value = adjComp.value.ifAuto
-  console.log(ifAuto.value)
   //👇
-  //可以从这里获取数据
-
+  //可以从这里获取AdjustmentPage的数据
 }
 
+
 const mindfulModel=ref(false)
+// 表示用户是否进入专注页面
+
+
 const changeModel = () => {
   mindfulModel.value=!mindfulModel.value
 }
