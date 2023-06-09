@@ -4,12 +4,14 @@
       <el-header>
         <el-row :gutter="20">
           <el-col :span="4">
-            <HomePage />
+            <div v-show="!mindfulModel">
+              <HomePage/>
+            </div>
           </el-col>
         </el-row>
       </el-header>
       <el-main>
-        <WoodBlock :ifAuto="ifAuto" />
+        <WoodBlock :ifAuto="ifAuto" :mindful-model="mindfulModel"/>
       </el-main>
       <el-footer>
         <el-row :gutter="20">
@@ -18,7 +20,7 @@
           </el-col>
           <el-col :span="16"></el-col>
           <el-col :span="4">
-            <el-button color="#273435" size="large" :icon="User" />
+            <img :src="mindfulModel?exit:buddha" @click="changeModel">
           </el-col>
         </el-row>
       </el-footer>
@@ -32,8 +34,9 @@ import { ref, defineProps } from 'vue'
 import HomePage from '@/components/HomePage.vue'
 import WoodBlock from '@/components/WoodBlock.vue'
 import { User } from "@element-plus/icons-vue"
-import AdjustmentPage from "@/view/AdjustmentPage.vue"
-
+import AdjustmentPage from "@/components/AdjustmentPage.vue"
+import buddha from "@/assets/Buddha.png"
+import exit from "@/assets/exit.png"
 
 const adjComp = ref(null)
 
@@ -44,8 +47,13 @@ const onMenuDrawerClosed = () => {
   console.log(ifAuto.value)
   //👇
   //可以从这里获取数据
+
 }
 
+const mindfulModel=ref(false)
+const changeModel = () => {
+  mindfulModel.value=!mindfulModel.value
+}
 
 </script>
 
