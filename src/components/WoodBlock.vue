@@ -11,7 +11,7 @@
 
     <div>
       <div v-show="mindfulModel">
-        <Lection :mindfulModel="props.mindfulModel" ref='childRef' style="height: 33.33vh;" />
+        <Lection :mindfulModel="props.mindfulModel" :wordNum="props.wordNum" ref='childRef' style="height: 33.33vh;" />
       </div>
       <div v-show="!mindfulModel">
         <div class="summary" v-text="'您已经正念了 ' + mindfulTime + ' 分钟'"></div>
@@ -54,6 +54,11 @@ const fn = () => {
   }
 }
 const props = defineProps({
+  //每次浮现的字数
+  wordNum:{
+    type: Number,
+    default: 1
+  },
   // 是否自动敲击
   ifAuto: {
     type: Boolean,
@@ -63,11 +68,17 @@ const props = defineProps({
   mindfulModel: {
     type: Boolean,
     default: false
+  },
+  speed:{
+    type: Number,
+    default: 1
   }
 })
 let interval = null; // 声明 interval 变量
 
-
+watch(()=>props.speed,(newValue)=>{
+  console.log(newValue)
+})
 // 监听用户是否进入专注页面
 // mindfulModel: boolean, true表示用户进入
 // 用户进入专注页面后，根据其是否选择自动模式来选择是否自动敲击
@@ -78,12 +89,13 @@ watch(() => props.mindfulModel, (newValue) => {
       if (interval) {
         clearInterval(interval);
       }
+
       interval = setInterval(() => {
         fn()
         if (props.ifAuto == false) {
           clearInterval(interval)
         }
-      }, 1000);
+      }, props.speed*1000);
     }
   }
   else {
@@ -91,6 +103,18 @@ watch(() => props.mindfulModel, (newValue) => {
 
   }
 }), { immediate: true }
+
+watch(()=> props.speed,(newValue)=>{
+  clearInterval(interval)
+  if(props.ifAuto ==true){
+    interval = setInterval(() => {
+        fn()
+        if (props.ifAuto == false) {
+          clearInterval(interval)
+        }
+      }, newValue*1000);
+  }
+})
 
 // 监听用户是否开启自动模式
 // 当用户已进入专注页面时，开启自动模式后将自动敲击
@@ -105,13 +129,15 @@ watch(() => props.ifAuto,(newValue)=>{
         if (props.ifAuto == false) {
           clearInterval(interval)
         }
-      }, 1000)
+      },  props.speed*1000)
     }
   }
   else{
     clearInterval(interval)
   }
 })
+
+
 </script>
 
 <style scoped>

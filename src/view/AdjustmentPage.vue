@@ -7,7 +7,7 @@
         <div class="adjustment-title">敲击设置</div>
       </div>
       <div class="container">
-        <van-field v-model="fieldValue1" is-link readonly label="敲击一次浮现的文字数" @click="showPicker1 = true" />
+        <van-field v-model="wordNum" is-link readonly label="敲击一次浮现的文字数" @click="showPicker1 = true" />
         <van-popup v-model:show="showPicker1" round position="bottom">
           <van-picker :columns="columns1" @cancel="showPicker1 = false" @confirm="onConfirm1" />
         </van-popup>
@@ -17,7 +17,7 @@
           </template>
         </van-cell>
 
-        <van-field v-model="fieldValue2" is-link readonly label="自动敲击时间间隔" @click="showPicker2 = true" />
+        <van-field v-model="speed" is-link readonly label="自动敲击时间间隔" @click="showPicker2 = true" />
         <van-popup v-model:show="showPicker2" round position="bottom">
           <van-picker :columns="columns2" @cancel="showPicker2 = false" @confirm="onConfirm2" />
         </van-popup>
@@ -95,11 +95,11 @@ const columns1 = [
   { text: '5', value: '5' },
 ];
 const columns2 = [
-  { text: '0.5s', value: '0.5' },
-  { text: '1s', value: '1' },
-  { text: '2s', value: '2' },
-  { text: '3s', value: '3' },
-  { text: '5s', value: '5' },
+  { text: '0.25s', value: '0.25s' },
+  { text: '0.5s', value: '0.5s'},
+  { text: '0.75s', value: '0.75s'},
+  { text: '1s', value: '1s' },
+  { text: '2s', value: '2s' },
 ]
 
 const columns3 = [
@@ -128,13 +128,14 @@ const columns6 = [
   { text: '音效4', value: '4' },
 ]
 
-const fieldValue1 = ref('1')
-const fieldValue2 = ref('1s')
+const wordNum = ref('1')
+const speed = ref('1s')
 const fieldValue3 = ref('金刚经')
 const fieldValue4 = ref('循环佛经')
 const fieldValue5 = ref('无')
 const fieldValue6 = ref('音效1')
 const ifAuto = ref(false)
+
 const showPicker1 = ref(false)
 const showPicker2 = ref(false)
 const showPicker3 = ref(false)
@@ -147,11 +148,11 @@ const toggle1 = () => {
 }
 const onConfirm1 = ({ selectedOptions }) => {
   showPicker1.value = false
-  fieldValue1.value = selectedOptions[0].text;
+  wordNum.value = selectedOptions[0].text;
 };
 const onConfirm2 = ({ selectedOptions }) => {
-  showPicker2.value = false
-  fieldValue2.value = selectedOptions[0].text;
+  showPicker2.value = false;
+  speed.value = selectedOptions[0].text
 };
 const onConfirm3 = ({ selectedOptions }) => {
   showPicker3.value = false
@@ -170,8 +171,8 @@ const onConfirm6 = ({ selectedOptions }) => {
   fieldValue6.value = selectedOptions[0].text;
 };
 defineExpose({
-  fieldValue1,
-  fieldValue2,
+  wordNum,
+  speed,
   fieldValue3,
   fieldValue4,
   fieldValue5,

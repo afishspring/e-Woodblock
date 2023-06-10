@@ -25,7 +25,7 @@ const lection = `第一品 法会因由分
 
 入舍卫大城乞食。于其城中，次第乞已，还至本处。饭食讫，收衣钵，洗足已，敷座而坐。
 
-　
+
 
 第二品 善现启请分
 
@@ -142,9 +142,13 @@ const props = defineProps({
   mindfulModel:{
     type: Boolean,
     default: true
+  },
+  wordNum:{
+    type: Number,
+    default: 1
   }
 })
- 
+
 // 用户重新进入专注页面时，经文重置
 watch(() => props.mindfulModel, (newValue, oldValue) =>{
   sentenceIndex = 1
@@ -157,12 +161,20 @@ watch(() => props.mindfulModel, (newValue, oldValue) =>{
 
 
 const play = () => {
-  index.value += 1
-  const punctuation = /[\xa0]/
-  if (punctuation.test(currS.value[index.value + 1])) {
-    index.value += 3
+  let wordNum = props.wordNum
+  if(index.value==currS.value.length-1)
+    index.value+=1
+  while(wordNum--){
+    if(index.value>=currS.value.length-1)
+      break
+    while(currS.value[index.value+1]=="\xa0"){
+      index.value+=3
+    }
+      // console.log("未加：",currS.value[index.value])
+      index.value+=1
+      // console.log("加：",currS.value[index.value])
   }
-
+  console.log(index.value)
   if (index.value >= currS.value.length) {
     index.value = -1
     sentenceIndex += 1

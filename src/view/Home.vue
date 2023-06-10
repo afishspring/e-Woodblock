@@ -11,7 +11,7 @@
         </el-row>
       </el-header>
       <el-main>
-        <WoodBlock :mindfulModel="mindfulModel" :ifAuto="ifAuto" :mindful-model="mindfulModel"/>
+        <WoodBlock :mindfulModel="mindfulModel" :wordNum="wordNum" :ifAuto="ifAuto" :mindful-model="mindfulModel" :speed="speed"/>
       </el-main>
       <el-footer>
         <el-row :gutter="20">
@@ -39,11 +39,22 @@ import buddha from "@/assets/Buddha.png"
 import exit from "@/assets/exit.png"
 
 const adjComp = ref(null)
-
+const wordNum = ref(1)
 const ifAuto = ref(false)
+const speed = ref(1)
 
 const onMenuDrawerClosed = () => {
+  // 获取wordNum并将其转化为数字
+  wordNum.value = parseInt(adjComp.value.wordNum)
+  // 获取ifAuto
   ifAuto.value = adjComp.value.ifAuto
+  // 获取speed并将其转化为数字
+  speed.value = adjComp.value.speed
+  const regex = /(\d+(\.\d+)?)/;
+  const match = speed.value.match(regex);
+  if (match) {
+    speed.value = parseFloat(match[0]);
+  }
   //👇
   //可以从这里获取AdjustmentPage的数据
 }
@@ -51,8 +62,6 @@ const onMenuDrawerClosed = () => {
 
 const mindfulModel=ref(false)
 // 表示用户是否进入专注页面
-
-
 const changeModel = () => {
   mindfulModel.value=!mindfulModel.value
 }
