@@ -20,7 +20,6 @@
 <script setup name="WoodBlock">
 import { ref, watch } from "vue";
 import { defineProps, getCurrentInstance } from "vue";
-
 import woodblockImg from "@/assets/Woodblock.png";
 import notion from "@/components/Notion.vue";
 import timer from "@/components/Timer.vue";
@@ -101,7 +100,7 @@ watch(
           if (props.ifAuto == false) {
             clearInterval(interval);
           }
-        }, 1000);
+        },props.speed*1000);
       }
       if (props.music == "水流") {
         backaudio1.currentTime = 0;
