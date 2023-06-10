@@ -36,10 +36,18 @@
     </div>
     <el-image class="logo-img" :src="logoImg" />
   </div>
+  <div class="data-bg">
+    <el-text class="count-title">正念时间统计</el-text>
+    <el-text class="focus">累计专注时长:</el-text>
+    <el-text class="focus-duration">32h</el-text>
+    <div id="chart" class="focus-chart"></div>
+  </div>
+  <!-- <div id="chart" class="chart"></div> -->
 </template>
 
 <script>
 import { defineComponent, ref, watch } from "vue";
+import * as echarts from "echarts";
 
 export default defineComponent({
   data() {
@@ -52,6 +60,72 @@ export default defineComponent({
     goToHomePage() {
       this.$router.push({ name: "home" });
     },
+    initChart() {
+      const chartElement = this.$refs.chart;
+      const chart = echarts.init(document.getElementById("chart"));
+
+      const option = {
+        xAxis: {
+          type: "category",
+          data: [
+            "00:00",
+            "01:00",
+            "02:00",
+            "03:00",
+            "04:00",
+            "05:00",
+            "06:00",
+            "07:00",
+            "08:00",
+            "09:00",
+            "10:00",
+            "11:00",
+            "12:00",
+            "13:00",
+            "14:00",
+            "15:00",
+            "16:00",
+            "17:00",
+            "18:00",
+            "19:00",
+            "20:00",
+            "21:00",
+            "22:00",
+            "23:00",
+          ],
+        },
+        yAxis: {
+          type: "value",
+        },
+        series: [
+          {
+            data: [
+              1, 0.5, 0.2, 0, 0, 0, 0, 0.6, 0.4, 0.7, 0.4, 0.2, 0.3, 0.2, 1.6,
+              1.7, 1.8, 3, 1.3, 2.3, 3.3, 5.2, 4.3, 3,
+            ],
+            type: "bar",
+            itemStyle: {
+              color: {
+                type: "linear",
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  { offset: 0, color: "#769b81" }, // 较低值的颜色
+                  { offset: 1, color: "#76c681" }, // 较高值的颜色
+                ],
+              },
+            },
+          },
+        ],
+      };
+
+      chart.setOption(option);
+    },
+  },
+  mounted() {
+    this.initChart();
   },
 });
 </script>
@@ -61,7 +135,7 @@ export default defineComponent({
   position: fixed;
   width: 100%;
   height: 100%;
-  background: #ffffff;
+  background: #e0e0e0;
 }
 
 .toptab {
@@ -257,5 +331,49 @@ export default defineComponent({
   width: 36px;
   left: calc(50% - 36px / 2);
   top: 45vh;
+}
+
+.data-bg {
+  position: absolute;
+  width: 328px;
+  height: 350px;
+  left: calc(50% - 328px / 2);
+  top: 370px;
+
+  background: #f3f2f2;
+  border-radius: 22px;
+}
+
+.count-title {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  font-family: "Microsoft YaHei UI";
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.focus {
+  position: absolute;
+  left: 20px;
+  top: 52px;
+  font-family: "Microsoft YaHei UI";
+  color: #838383;
+}
+
+.focus-duration {
+  position: absolute;
+  left: 120px;
+  top: 52px;
+  font-family: "Microsoft YaHei UI";
+  color: #6d9d84;
+}
+
+.focus-chart {
+  position: absolute;
+  left: -5px;
+  top: 50px;
+  width: 350px;
+  height: 300px;
 }
 </style>
