@@ -2,11 +2,7 @@
   <div class="container">
     <div>
       <div v-show="mindfulModel">
-        <Lection
-          :mindfulModel="props.mindfulModel"
-          ref="childRef"
-          :wordNum="props.wordNum"
-        />
+        <Lection :mindfulModel="props.mindfulModel" ref="childRef" :wordNum="props.wordNum" />
       </div>
       <div v-show="!mindfulModel">
         <notion />
@@ -15,18 +11,10 @@
 
     <div></div>
     <div style="display: flex; justify-content: center">
-      <timer
-        :countModel="props.timerModel"
-        :mindfulModel="props.mindfulModel"
-      />
+      <timer :countModel="props.timerModel" :mindfulModel="props.mindfulModel" />
     </div>
   </div>
-  <el-image
-    class="woodblockStyle"
-    :src="woodblockImg"
-    fit="contain"
-    @click="beatWoodblock"
-  />
+  <el-image class="woodblockStyle" :src="woodblockImg" fit="contain" @click="beatWoodblock" />
 </template>
 
 <script setup name="WoodBlock">
@@ -42,7 +30,7 @@ import birdMusic from "@/assets/bird.wav";
 import waterMusic from "@/assets/water.wav";
 import rainMusic from "@/assets/rain.wav";
 import fireMusic from "@/assets/fire.wav";
-const fieldValue5 = ref("");
+const music = ref("");
 let childRef = ref(null);
 const beatWoodblock = () => {
   if (props.mindfulModel == true) {
@@ -77,7 +65,7 @@ const props = defineProps({
     default: 1,
   },
   //背景音
-  fieldValue5: {
+  music: {
     type: String,
     default: "无",
   },
@@ -95,7 +83,7 @@ watch(
 );
 
 //监听用户背景音选择
-watch(() => props.fieldValue5);
+
 // 监听用户是否进入专注页面
 // mindfulModel: boolean, true表示用户进入
 // 用户进入专注页面后，根据其是否选择自动模式来选择是否自动敲击
@@ -109,29 +97,33 @@ watch(
           clearInterval(interval);
         }
         interval = setInterval(() => {
-          fn();
+          beatWoodblock();
           if (props.ifAuto == false) {
             clearInterval(interval);
           }
         }, 1000);
       }
-      if (props.fieldValue5 == "水流") {
+      if (props.music == "水流") {
+        backaudio1.currentTime = 0;
         backaudio1.play();
-      } else if (props.fieldValue5 == "鸟鸣") {
+      } else if (props.music == "鸟鸣") {
+        backaudio2.currentTime = 0;
         backaudio2.play();
-      } else if (props.fieldValue5 == "雨天") {
+      } else if (props.music == "雨天") {
+        backaudio3.currentTime = 0;
         backaudio3.play();
-      } else if (props.fieldValue5 == "篝火") {
+      } else if (props.music == "篝火") {
+        backaudio4.currentTime = 0;
         backaudio4.play();
       }
     } else {
-      if (props.fieldValue5 == "水流") {
+      if (props.music == "水流") {
         backaudio1.pause();
-      } else if (props.fieldValue5 == "鸟鸣") {
+      } else if (props.music == "鸟鸣") {
         backaudio2.pause();
-      } else if (props.fieldValue5 == "雨天") {
+      } else if (props.music == "雨天") {
         backaudio3.pause();
-      } else if (props.fieldValue5 == "篝火") {
+      } else if (props.music == "篝火") {
         backaudio4.pause();
       }
       clearInterval(interval);
@@ -140,6 +132,33 @@ watch(
 ),
   { immediate: true };
 
+
+watch(() => props.music, (newValue, oldValue) => {
+  if (props.mindfulModel == true) {
+    if (newValue == "水流") {
+      backaudio1.currentTime = 0;
+      backaudio1.play();
+    } else if (newValue == "鸟鸣") {
+      backaudio2.currentTime = 0;
+      backaudio2.play();
+    } else if (newValue == "雨天") {
+      backaudio3.currentTime = 0;
+      backaudio3.play();
+    } else if (newValue == "篝火") {
+      backaudio4.currentTime = 0;
+      backaudio4.play();
+    }
+    if (oldValue == "水流") {
+      backaudio1.pause();
+    } else if (oldValue == "鸟鸣") {
+      backaudio2.pause();
+    } else if (oldValue == "雨天") {
+      backaudio3.pause();
+    } else if (oldValue == "篝火") {
+      backaudio4.pause();
+    }
+  }
+})
 watch(
   () => props.speed,
   (newValue) => {

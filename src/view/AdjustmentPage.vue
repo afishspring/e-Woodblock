@@ -59,11 +59,11 @@
         <div class="adjustment-title">声音设置</div>
       </div>
       <div class="container">
-        <van-field v-model="fieldValue5" is-link readonly label="背景音" @click="showPicker5 = true" />
+        <van-field v-model="music" is-link readonly label="背景音" @click="showPicker5 = true" />
         <van-popup v-model:show="showPicker5" round position="bottom">
           <van-picker :columns="columns5" @cancel="showPicker5 = false" @confirm="onConfirm5" />
         </van-popup>
-        <van-field v-model="fieldValue6" is-link readonly label="背景音" @click="showPicker6 = true" />
+        <van-field v-model="fieldValue6" is-link readonly label="音效" @click="showPicker6 = true" />
         <van-popup v-model:show="showPicker6" round position="bottom">
           <van-picker :columns="columns6" @cancel="showPicker6 = false" @confirm="onConfirm6" />
         </van-popup>
@@ -132,7 +132,7 @@ const wordNum = ref('1')
 const speed = ref('1s')
 const fieldValue3 = ref('金刚经')
 const fieldValue4 = ref('循环佛经')
-const fieldValue5 = ref('无')
+const music = ref('无')
 const fieldValue6 = ref('音效1')
 const ifAuto = ref(false)
 
@@ -164,7 +164,7 @@ const onConfirm4 = ({ selectedOptions }) => {
 };
 const onConfirm5 = ({ selectedOptions }) => {
   showPicker5.value = false
-  fieldValue5.value = selectedOptions[0].text;
+  music.value = selectedOptions[0].text;
 };
 const onConfirm6 = ({ selectedOptions }) => {
   showPicker6.value = false
@@ -175,7 +175,7 @@ defineExpose({
   speed,
   fieldValue3,
   fieldValue4,
-  fieldValue5,
+  music,
   fieldValue6,
   ifAuto })
 </script>
