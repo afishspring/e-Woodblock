@@ -50,7 +50,7 @@ export default defineComponent({
   },
   methods: {
     goToHomePage() {
-      this.$router.push({ name: 'home' });
+      this.$router.push({ name: "home" });
     },
   },
 });
@@ -127,7 +127,7 @@ export default defineComponent({
 
 .border1 {
   position: absolute;
-  left: 35px;
+  left: 45px;
   top: 154px;
   height: 150px;
   border-left: 2px solid #ffffff;
@@ -135,7 +135,7 @@ export default defineComponent({
 
 .border2 {
   position: absolute;
-  left: 276px;
+  left: 286px;
   top: 140px;
   width: 36px;
   border-top: 2px solid #ffffff;
@@ -143,7 +143,7 @@ export default defineComponent({
 
 .border3 {
   position: absolute;
-  left: 312px;
+  left: 322px;
   top: 140px;
   height: 140px;
   border-left: 2px solid #ffffff;
@@ -158,7 +158,7 @@ export default defineComponent({
 .text1 {
   position: absolute;
   height: 27px;
-  left: 34px;
+  left: 44px;
   top: 127px;
   font-family: "Microsoft YaHei UI";
 
@@ -170,7 +170,7 @@ export default defineComponent({
 .main-content1 {
   position: absolute;
   height: 53px;
-  left: 196px;
+  left: 206px;
   top: 110px;
 
   font-family: "Microsoft JhengHei UI";
@@ -183,7 +183,7 @@ export default defineComponent({
   position: absolute;
   width: 100%;
   height: 57px;
-  left: 125px;
+  left: 135px;
   top: 169px;
 
   font-family: "Microsoft YaHei UI";
@@ -207,7 +207,7 @@ export default defineComponent({
 .text3 {
   position: absolute;
   height: 64px;
-  left: 34px;
+  left: 44px;
   top: 212px;
 
   font-family: "Microsoft YaHei UI";
@@ -233,7 +233,7 @@ export default defineComponent({
   position: absolute;
 
   height: 90px;
-  left: 64px;
+  left: 74px;
   top: 262px;
 
   font-family: "Microsoft YaHei UI";
