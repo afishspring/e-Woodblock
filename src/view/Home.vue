@@ -7,7 +7,7 @@
         </div>
       </el-header>
       <el-main>
-        <WoodBlock :mindfulModel="mindfulModel" :ifAuto="ifAuto" :timerModel="timerModel" :speed="speed" :wordNum="wordNum"/>
+        <WoodBlock :mindfulModel="mindfulModel" :ifAuto="ifAuto" :timerModel="timerModel" :speed="speed" :wordNum="wordNum" :fieldValue5="fieldValue5"/>
       </el-main>
       <el-footer>
         <el-row :gutter="20">
@@ -38,7 +38,7 @@ const adjComp = ref(null)
 const wordNum = ref(1)
 const ifAuto = ref(false)
 const speed = ref(1)
-
+const fieldValue5 = ref("");
 const onMenuDrawerClosed = () => {
   // 获取wordNum并将其转化为数字
   wordNum.value = parseInt(adjComp.value.wordNum)
@@ -51,6 +51,7 @@ const onMenuDrawerClosed = () => {
   if (match) {
     speed.value = parseFloat(match[0]);
   }
+  fieldValue5.value = adjComp.value.fieldValue5;
   //👇
   //可以从这里获取AdjustmentPage的数据
 }

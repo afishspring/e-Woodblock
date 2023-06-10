@@ -115,7 +115,7 @@ const columns4 = [
 ]
 const columns5 = [
   { text: '无', value: '无' },
-  { text: '水流 ', value: '水流' },
+  { text: '水流', value: '水流' },
   { text: '鸟鸣', value: '鸟鸣' },
   { text: '雨天', value: '雨天' },
   { text: '篝火', value: '篝火' },

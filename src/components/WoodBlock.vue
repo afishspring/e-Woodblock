@@ -2,7 +2,11 @@
   <div class="container">
     <div>
       <div v-show="mindfulModel">
-        <Lection :mindfulModel="props.mindfulModel" ref='childRef' :wordNum="props.wordNum"/>
+        <Lection
+          :mindfulModel="props.mindfulModel"
+          ref="childRef"
+          :wordNum="props.wordNum"
+        />
       </div>
       <div v-show="!mindfulModel">
         <notion />
@@ -10,119 +14,169 @@
     </div>
 
     <div></div>
-    <div style="display: flex;justify-content:center ;">
-        <timer :countModel="props.timerModel" :mindfulModel="props.mindfulModel"/>
+    <div style="display: flex; justify-content: center">
+      <timer
+        :countModel="props.timerModel"
+        :mindfulModel="props.mindfulModel"
+      />
     </div>
   </div>
-  <el-image class="woodblockStyle" :src="woodblockImg" fit="contain" @click="beatWoodblock" />
+  <el-image
+    class="woodblockStyle"
+    :src="woodblockImg"
+    fit="contain"
+    @click="beatWoodblock"
+  />
 </template>
 
 <script setup name="WoodBlock">
-import { ref, watch } from 'vue'
-import { defineProps, getCurrentInstance } from "vue"
+import { ref, watch } from "vue";
+import { defineProps, getCurrentInstance } from "vue";
 
-import woodblockImg from '@/assets/Woodblock.png'
-import notion from '@/components/Notion.vue'
-import timer from '@/components/Timer.vue'
-import Lection from '@/components/Lection.vue'
-import woodblockMusic from '@/assets/wood-block-single-hit.mp3'
-
-let childRef = ref(null)
+import woodblockImg from "@/assets/Woodblock.png";
+import notion from "@/components/Notion.vue";
+import timer from "@/components/Timer.vue";
+import Lection from "@/components/Lection.vue";
+import woodblockMusic from "@/assets/wood-block-single-hit.mp3";
+import birdMusic from "@/assets/bird.wav";
+import waterMusic from "@/assets/water.wav";
+import rainMusic from "@/assets/rain.wav";
+import fireMusic from "@/assets/fire.wav";
+const fieldValue5 = ref("");
+let childRef = ref(null);
 const beatWoodblock = () => {
   if (props.mindfulModel == true) {
-    childRef.value.play()
-    const audio = new Audio(woodblockMusic)
-    audio.play()
+    childRef.value.play();
+    const audio = new Audio(woodblockMusic);
+    audio.play();
   }
-}
+};
 const props = defineProps({
   //每次浮现的字数
-  wordNum:{
+  wordNum: {
     type: Number,
-    default: 1
+    default: 1,
   },
   // 是否自动敲击
   ifAuto: {
     type: Boolean,
-    default: false
+    default: false,
   },
   // 是否进入专注模式（开始计时）
   mindfulModel: {
     type: Boolean,
-    default: false
+    default: false,
   },
   // 计时器模式
-  timerModel:{
+  timerModel: {
     type: Boolean,
-    default: false
+    default: false,
   },
-  speed:{
+  speed: {
     type: Number,
-    default: 1
-  }
-})
+    default: 1,
+  },
+  //背景音
+  fieldValue5: {
+    type: String,
+    default: "无",
+  },
+});
 let interval = null; // 声明 interval 变量
+let backaudio1 = new Audio(waterMusic);
+let backaudio2 = new Audio(birdMusic);
+let backaudio3 = new Audio(rainMusic);
+let backaudio4 = new Audio(fireMusic);
+watch(
+  () => props.speed,
+  (newValue) => {
+    console.log(newValue);
+  }
+);
 
-watch(()=>props.speed,(newValue)=>{
-  console.log(newValue)
-})
+//监听用户背景音选择
+watch(() => props.fieldValue5);
 // 监听用户是否进入专注页面
 // mindfulModel: boolean, true表示用户进入
 // 用户进入专注页面后，根据其是否选择自动模式来选择是否自动敲击
 // 后期开发逻辑可能更改
-watch(() => props.mindfulModel, (newValue) => {
-  if (newValue == true) {
-    if (props.ifAuto == true) {
-      if (interval) {
-        clearInterval(interval);
-      }
-      interval = setInterval(() => {
-        beatWoodblock()
-        if (props.ifAuto == false) {
-          clearInterval(interval)
+watch(
+  () => props.mindfulModel,
+  (newValue) => {
+    if (newValue == true) {
+      if (props.ifAuto == true) {
+        if (interval) {
+          clearInterval(interval);
         }
-      }, props.speed*1000);
+        interval = setInterval(() => {
+          fn();
+          if (props.ifAuto == false) {
+            clearInterval(interval);
+          }
+        }, 1000);
+      }
+      if (props.fieldValue5 == "水流") {
+        backaudio1.play();
+      } else if (props.fieldValue5 == "鸟鸣") {
+        backaudio2.play();
+      } else if (props.fieldValue5 == "雨天") {
+        backaudio3.play();
+      } else if (props.fieldValue5 == "篝火") {
+        backaudio4.play();
+      }
+    } else {
+      if (props.fieldValue5 == "水流") {
+        backaudio1.pause();
+      } else if (props.fieldValue5 == "鸟鸣") {
+        backaudio2.pause();
+      } else if (props.fieldValue5 == "雨天") {
+        backaudio3.pause();
+      } else if (props.fieldValue5 == "篝火") {
+        backaudio4.pause();
+      }
+      clearInterval(interval);
     }
   }
-  else {
-    clearInterval(interval)
+),
+  { immediate: true };
 
-  }
-}), { immediate: true }
-
-watch(()=> props.speed,(newValue)=>{
-  clearInterval(interval)
-  if(props.ifAuto ==true){
-    interval = setInterval(() => {
-      beatWoodblock()
+watch(
+  () => props.speed,
+  (newValue) => {
+    clearInterval(interval);
+    if (props.ifAuto == true) {
+      interval = setInterval(() => {
+        beatWoodblock();
         if (props.ifAuto == false) {
-          clearInterval(interval)
+          clearInterval(interval);
         }
-      }, newValue*1000);
+      }, newValue * 1000);
+    }
   }
-})
+);
 
 // 监听用户是否开启自动模式
 // 当用户已进入专注页面时，开启自动模式后将自动敲击
-watch(() => props.ifAuto,(newValue)=>{
-  if(newValue==true){
-    if(props.mindfulModel==true){
-      if (interval) {
-        clearInterval(interval); // 清除旧的 interval
-      }
-      interval = setInterval(() => {
-        beatWoodblock()
-        if (props.ifAuto == false) {
-          clearInterval(interval)
+watch(
+  () => props.ifAuto,
+  (newValue) => {
+    if (newValue == true) {
+      if (props.mindfulModel == true) {
+        if (interval) {
+          clearInterval(interval); // 清除旧的 interval
         }
-      },  props.speed*1000)
+        interval = setInterval(() => {
+          beatWoodblock();
+          if (props.ifAuto == false) {
+            clearInterval(interval);
+          }
+        }, props.speed * 1000);
+      }
+    } else {
+      clearInterval(interval);
     }
   }
-  else{
-    clearInterval(interval)
-  }
-})
-
+);
 </script>
 
 <style scoped>
@@ -159,15 +213,15 @@ watch(() => props.ifAuto,(newValue)=>{
 .counter {
   display: flex;
   align-items: center;
-  background-color: #5C6666;
+  background-color: #5c6666;
   width: 60px;
   height: 40px;
   text-align: center;
-  border-radius: 20px
+  border-radius: 20px;
 }
 
 .summary {
-  font-family: 'Microsoft YaHei UI';
+  font-family: "Microsoft YaHei UI";
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
