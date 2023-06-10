@@ -7,23 +7,26 @@
       <span :class="[{ timer: true }, { passed: minutePassed }]">:</span>
       <span :class="[{ timer: true }, { passed: secondPassed }]">{{ formatTime.seconds }}</span>
     </div>
-    <div style="display: grid;grid-template-columns: 1fr 1fr 1fr;justify-items: center;">
+    <!-- <div style="display: grid;grid-template-columns: 1fr 1fr;justify-items: center;">
       <div class="reset-button" @click="resetTimer">
         <img :src="resetTimerImg" alt="Reset" />
       </div>
-      <div class="start-button" @click="startTimer">
+
+      <div class="start-button" @click="startTimer" v-show="!timerStatus">
         <img :src="startTimerImg" alt="Start" />
       </div>
-      <div class="stop-button" @click="stopTimer">
+      <div class="stop-button" @click="stopTimer" v-show="timerStatus">
         <img :src="stopTimerImg" alt="Stop" />
       </div>
-    </div>
+    </div> -->
 
   </div>
 </template>
 
 <script setup name="selfTimer">
-import { ref, watch, onBeforeUnmount, computed } from 'vue';
+
+import { ref, watch, onBeforeUnmount, computed ,defineExpose} from 'vue';
+
 import startTimerImg from '@/assets/startTimer.png'
 import stopTimerImg from '@/assets/stopTimer.png'
 import resetTimerImg from '@/assets/resetTimer.png'
@@ -34,7 +37,9 @@ const hourPassed = ref(false)
 const minutePassed = ref(false)
 const secondPassed = ref(false)
 
+const timerStatus=ref(false)
 const startTimer = () => {
+  timerStatus.value=true
   if (timer.value === null) {
     timer.value = setInterval(() => {
       time.value++;
@@ -43,6 +48,7 @@ const startTimer = () => {
 };
 
 const stopTimer = () => {
+  timerStatus.value=false
   if (timer.value !== null) {
     clearInterval(timer.value);
     timer.value = null;
@@ -76,6 +82,12 @@ const formatTime = computed(() => {
 onBeforeUnmount(() => {
   stopTimer();
 });
+
+defineExpose({
+  startTimer,
+  stopTimer,
+  resetTimer
+})
 </script>
 
 <style scoped>

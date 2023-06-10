@@ -1,34 +1,20 @@
 <template>
   <div class="container">
-    <div class="counterContainer">
-      <div class="counter" v-show="mindfulModel" @click="timerModel = true">
-        <img :src="countup">
-      </div>
-      <div class="counter" v-show="mindfulModel" @click="timerModel = false">
-        <img :src="countdown">
-      </div>
-    </div>
-
     <div>
       <div v-show="mindfulModel">
-        <Lection :mindfulModel="props.mindfulModel" :wordNum="props.wordNum" ref='childRef' style="height: 33.33vh;" />
+        <Lection :mindfulModel="props.mindfulModel" ref='childRef' />
       </div>
       <div v-show="!mindfulModel">
-        <div class="summary" v-text="'您已经正念了 ' + mindfulTime + ' 分钟'"></div>
+        <notion />
       </div>
     </div>
 
     <div></div>
     <div style="display: flex;justify-content:center ;">
-      <div v-if="!mindfulModel">
-        <notion />
-      </div>
-      <div v-else>
-        <timer :countModel="timerModel" />
-      </div>
+        <timer :countModel="props.timerModel" :mindfulModel="props.mindfulModel"/>
     </div>
   </div>
-  <el-image class="woodblockStyle" :src="woodblockImg" fit="contain" @click="fn" />
+  <el-image class="woodblockStyle" :src="woodblockImg" fit="contain" @click="beatWoodblock" />
 </template>
 
 <script setup name="WoodBlock">
@@ -36,17 +22,13 @@ import { ref, watch } from 'vue'
 import { defineProps, getCurrentInstance } from "vue"
 
 import woodblockImg from '@/assets/Woodblock.png'
-import countup from '@/assets/countup.png'
-import countdown from '@/assets/countdown.png'
 import notion from '@/components/Notion.vue'
 import timer from '@/components/Timer.vue'
 import Lection from '@/components/Lection.vue'
 import woodblockMusic from '@/assets/wood-block-single-hit.mp3'
-const timerModel = ref(false)
-const mindfulTime = ref(25)
 
 let childRef = ref(null)
-const fn = () => {
+const beatWoodblock = () => {
   if (props.mindfulModel == true) {
     childRef.value.play()
     const audio = new Audio(woodblockMusic)
@@ -69,6 +51,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  // 计时器模式
+  timerModel:{
+    type: Boolean,
+    default: false
   speed:{
     type: Number,
     default: 1
@@ -89,7 +75,6 @@ watch(() => props.mindfulModel, (newValue) => {
       if (interval) {
         clearInterval(interval);
       }
-
       interval = setInterval(() => {
         fn()
         if (props.ifAuto == false) {
@@ -136,7 +121,6 @@ watch(() => props.ifAuto,(newValue)=>{
     clearInterval(interval)
   }
 })
-
 
 </script>
 

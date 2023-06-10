@@ -2,16 +2,12 @@
   <div style="height: -webkit-fill-available;">
     <el-container style="height: -webkit-fill-available;">
       <el-header>
-        <el-row :gutter="20">
-          <el-col :span="4">
-            <div v-show="!mindfulModel">
-              <HomePage/>
-            </div>
-          </el-col>
-        </el-row>
+        <div v-show="!mindfulModel">
+          <HomePage @timerModelSet="timerModelChange" />
+        </div>
       </el-header>
       <el-main>
-        <WoodBlock :mindfulModel="mindfulModel" :wordNum="wordNum" :ifAuto="ifAuto" :mindful-model="mindfulModel" :speed="speed"/>
+        <WoodBlock :mindfulModel="mindfulModel" :ifAuto="ifAuto" :timerModel="timerModel" />
       </el-main>
       <el-footer>
         <el-row :gutter="20">
@@ -20,7 +16,7 @@
           </el-col>
           <el-col :span="16"></el-col>
           <el-col :span="4">
-            <img :src="mindfulModel?exit:buddha" @click="changeModel">
+            <img :src="mindfulModel ? exit : buddha" @click="changeModel">
           </el-col>
         </el-row>
       </el-footer>
@@ -59,11 +55,17 @@ const onMenuDrawerClosed = () => {
   //可以从这里获取AdjustmentPage的数据
 }
 
-
-const mindfulModel=ref(false)
+const mindfulModel = ref(false)
 // 表示用户是否进入专注页面
+
+const timerModel = ref(false)
+const timerModelChange = (model) => {
+  timerModel.value = model
+}
+
 const changeModel = () => {
-  mindfulModel.value=!mindfulModel.value
+  mindfulModel.value = !mindfulModel.value
+
 }
 
 </script>
