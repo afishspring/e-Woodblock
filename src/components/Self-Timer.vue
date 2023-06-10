@@ -24,7 +24,9 @@
 </template>
 
 <script setup name="selfTimer">
+
 import { ref, watch, onBeforeUnmount, computed ,defineExpose} from 'vue';
+
 import startTimerImg from '@/assets/startTimer.png'
 import stopTimerImg from '@/assets/stopTimer.png'
 import resetTimerImg from '@/assets/resetTimer.png'
@@ -34,6 +36,7 @@ const time = ref(0);
 const hourPassed = ref(false)
 const minutePassed = ref(false)
 const secondPassed = ref(false)
+
 const timerStatus=ref(false)
 const startTimer = () => {
   timerStatus.value=true

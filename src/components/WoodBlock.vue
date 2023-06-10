@@ -22,7 +22,6 @@ import { ref, watch } from 'vue'
 import { defineProps, getCurrentInstance } from "vue"
 
 import woodblockImg from '@/assets/Woodblock.png'
-
 import notion from '@/components/Notion.vue'
 import timer from '@/components/Timer.vue'
 import Lection from '@/components/Lection.vue'
@@ -37,6 +36,11 @@ const beatWoodblock = () => {
   }
 }
 const props = defineProps({
+  //每次浮现的字数
+  wordNum:{
+    type: Number,
+    default: 1
+  },
   // 是否自动敲击
   ifAuto: {
     type: Boolean,
@@ -51,11 +55,16 @@ const props = defineProps({
   timerModel:{
     type: Boolean,
     default: false
+  speed:{
+    type: Number,
+    default: 1
   }
 })
 let interval = null; // 声明 interval 变量
 
-
+watch(()=>props.speed,(newValue)=>{
+  console.log(newValue)
+})
 // 监听用户是否进入专注页面
 // mindfulModel: boolean, true表示用户进入
 // 用户进入专注页面后，根据其是否选择自动模式来选择是否自动敲击
@@ -71,7 +80,7 @@ watch(() => props.mindfulModel, (newValue) => {
         if (props.ifAuto == false) {
           clearInterval(interval)
         }
-      }, 1000);
+      }, props.speed*1000);
     }
   }
   else {
@@ -80,11 +89,23 @@ watch(() => props.mindfulModel, (newValue) => {
   }
 }), { immediate: true }
 
+watch(()=> props.speed,(newValue)=>{
+  clearInterval(interval)
+  if(props.ifAuto ==true){
+    interval = setInterval(() => {
+        fn()
+        if (props.ifAuto == false) {
+          clearInterval(interval)
+        }
+      }, newValue*1000);
+  }
+})
+
 // 监听用户是否开启自动模式
 // 当用户已进入专注页面时，开启自动模式后将自动敲击
-watch(() => props.ifAuto, (newValue) => {
-  if (newValue == true) {
-    if (props.mindfulModel == true) {
+watch(() => props.ifAuto,(newValue)=>{
+  if(newValue==true){
+    if(props.mindfulModel==true){
       if (interval) {
         clearInterval(interval); // 清除旧的 interval
       }
@@ -93,10 +114,10 @@ watch(() => props.ifAuto, (newValue) => {
         if (props.ifAuto == false) {
           clearInterval(interval)
         }
-      }, 1000)
+      },  props.speed*1000)
     }
   }
-  else {
+  else{
     clearInterval(interval)
   }
 })
@@ -111,20 +132,47 @@ watch(() => props.ifAuto, (newValue) => {
 
 .container {
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 50px 1fr 1fr 1fr;
   gap: 5px;
   height: 100%;
   justify-items: center;
 }
 
 .woodblockStyle {
-  width: 80%;
-  height: 80%;
+  width: 80vw;
+  height: 60vw;
   margin: auto;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+}
+
+.counterContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 25px;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  background-color: #5C6666;
+  width: 60px;
+  height: 40px;
+  text-align: center;
+  border-radius: 20px
+}
+
+.summary {
+  font-family: 'Microsoft YaHei UI';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 30px;
+  letter-spacing: 0.12em;
+
+  color: rgba(255, 255, 255, 0.85);
 }
 </style>

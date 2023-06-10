@@ -29,6 +29,7 @@ import {ref}from 'vue'
 import personal from "@/assets/personal.png"
 import countup from '@/assets/countup.png'
 import countdown from '@/assets/countdown.png'
+const menuDrawer = ref(false)
 
 const timerModel=ref(false)
 const emit = defineEmits(['timerModelSet'])

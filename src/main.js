@@ -12,6 +12,7 @@ import 'vant/lib/index.css'
 
 
 const app = createApp(App)
+app.use(router)
 app.use(ElementPlus)
 app.use(Popup)
 app.use(ConfigProvider).use(Field).use(Picker).use(Cell).use(Icon).use(Radio).use(RadioGroup).use(CellGroup).use(Switch).use(CountDown).use(TimePicker)
@@ -19,5 +20,4 @@ app.use(Tabs).use(Tab).use(NavBar)
 for (const name in Elicons) {
   app.component(name, Elicons[name]);
 }
-
 app.mount('#app')

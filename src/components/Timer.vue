@@ -40,6 +40,7 @@ const props = defineProps({
   countModel: {
     type: Boolean,
     default: false
+
   },
   mindfulModel: {
     type: Boolean,
@@ -86,7 +87,6 @@ const refreshTimer = () => {
 <style scoped>
 .timer {
   display: inline-block;
-
   font-family: 'Segoe UI Symbol';
   font-style: normal;
   font-weight: 400;
