@@ -7,7 +7,7 @@
         </div>
       </el-header>
       <el-main>
-        <WoodBlock :mindfulModel="mindfulModel" :ifAuto="ifAuto" :timerModel="timerModel" />
+        <WoodBlock :mindfulModel="mindfulModel" :ifAuto="ifAuto" :timerModel="timerModel" :speed="speed" :wordNum="wordNum"/>
       </el-main>
       <el-footer>
         <el-row :gutter="20">

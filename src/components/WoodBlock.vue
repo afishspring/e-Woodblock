@@ -2,7 +2,7 @@
   <div class="container">
     <div>
       <div v-show="mindfulModel">
-        <Lection :mindfulModel="props.mindfulModel" ref='childRef' />
+        <Lection :mindfulModel="props.mindfulModel" ref='childRef' :wordNum="props.wordNum"/>
       </div>
       <div v-show="!mindfulModel">
         <notion />
@@ -55,6 +55,7 @@ const props = defineProps({
   timerModel:{
     type: Boolean,
     default: false
+  },
   speed:{
     type: Number,
     default: 1
@@ -76,7 +77,7 @@ watch(() => props.mindfulModel, (newValue) => {
         clearInterval(interval);
       }
       interval = setInterval(() => {
-        fn()
+        beatWoodblock()
         if (props.ifAuto == false) {
           clearInterval(interval)
         }
@@ -93,7 +94,7 @@ watch(()=> props.speed,(newValue)=>{
   clearInterval(interval)
   if(props.ifAuto ==true){
     interval = setInterval(() => {
-        fn()
+      beatWoodblock()
         if (props.ifAuto == false) {
           clearInterval(interval)
         }
@@ -110,7 +111,7 @@ watch(() => props.ifAuto,(newValue)=>{
         clearInterval(interval); // 清除旧的 interval
       }
       interval = setInterval(() => {
-        fn()
+        beatWoodblock()
         if (props.ifAuto == false) {
           clearInterval(interval)
         }
@@ -132,7 +133,7 @@ watch(() => props.ifAuto,(newValue)=>{
 
 .container {
   display: grid;
-  grid-template-rows: 50px 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   gap: 5px;
   height: 100%;
   justify-items: center;
