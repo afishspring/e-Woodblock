@@ -104,8 +104,7 @@ const columns2 = [
 
 const columns3 = [
   { text: '金刚经', value: '金刚经' },
-  { text: '心经 ', value: '心经' },
-  { text: '楞严经', value: '楞严经' },
+  { text: '心经', value: '心经' },
   { text: '坛经', value: '坛经' },
   { text: '维摩诘经', value: '维摩诘经' },
 ]
@@ -123,9 +122,8 @@ const columns5 = [
 
 const columns6 = [
   { text: '音效1', value: '1' },
-  { text: '音效2 ', value: '2' },
+  { text: '音效2', value: '2' },
   { text: '音效3', value: '3' },
-  { text: '音效4', value: '4' },
 ]
 
 const wordNum = ref('1')
