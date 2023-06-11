@@ -1,18 +1,21 @@
 <template>
-  <div class="container">
-    <div id="lasttxt" style="opacity: 0;"
-      :class="[{ txtArea: lastWidthStatus }, { 'txtArea-2': !lastWidthStatus }, { currtxt: roll }]">
-      <div v-for="(rchar, index) in lastS" :key="index" class="unread">
-        {{ rchar }}
+  <div style="justify-items: center;display: grid;grid-template-rows: 1fr 50px 1fr;grid-auto-columns: 1fr;">
+    <div class="container">
+      <div id="lasttxt" style="opacity: 0;"
+        :class="[{ txtArea: lastWidthStatus }, { 'txtArea-2': !lastWidthStatus }, { currtxt: roll }]">
+        <div v-for="(rchar, index) in lastS" :key="index" class="unread">
+          {{ rchar }}
+        </div>
+      </div>
+      <div id="currtxt" :class="[{ txtArea: currWidthStatus }, { 'txtArea-2': !currWidthStatus }, { newtxt: roll }]">
+        <div v-for="(rchar, index) in currS" :key="index" :class="{ read: currClass(index), unread: !currClass(index) }">
+          {{ rchar }}
+        </div>
       </div>
     </div>
-    <div id="currtxt" :class="[{ txtArea: currWidthStatus }, { 'txtArea-2': !currWidthStatus }, { newtxt: roll }]">
-      <div v-for="(rchar, index) in currS" :key="index" :class="{ read: currClass(index), unread: !currClass(index) }">
-        {{ rchar }}
-      </div>
-    </div>
+    <div></div>
+    <div>《{{props.lectionType}}》   {{ sentenceIndex }}/{{ totalSentence }}</div>
   </div>
-  <div>{{  }}</div>
 </template>
  
 <script setup name="Lection">
@@ -252,7 +255,8 @@ else if (props.lectionType == '维摩诘经')
   lection = lectionset[3]
 let sentences = splitSentence(lection)
 
-var sentenceIndex = 1
+const sentenceIndex = ref(1)
+const totalSentence = ref(lection.length)
 const lastS = ref(["       "])
 const currS = ref(sentences[0])
 const nextS = ref(sentences[1])
@@ -274,7 +278,7 @@ const props = defineProps({
     type: String,
     default: "金刚经",
   },
-  playType:{
+  playType: {
     type: String,
     default: "循环佛经",
   }
@@ -289,8 +293,7 @@ watch(() => props.lectionType, (newValue) => {
     lection = lectionset[2]
   else if (newValue == '维摩诘经')
     lection = lectionset[3]
-  else
-    console.log("fuck u")
+  totalSentence.value = lection.length
   console.log(newValue)
   console.log(lection)
   sentences = splitSentence(lection)
@@ -299,7 +302,7 @@ watch(() => props.lectionType, (newValue) => {
 // 用户重新进入专注页面时，经文重置
 watch(() => props.mindfulModel, (newValue, oldValue) => {
 
-  sentenceIndex = 1
+  sentenceIndex.value = 1
   index.value = -1
   lastS.value = ["       "]
   currS.value = sentences[0]
@@ -322,13 +325,13 @@ const play = () => {
   }
   if (index.value >= currS.value.length) {
     index.value = -1
-    sentenceIndex += 1
+    sentenceIndex.value += 1
     lastS.value = currS.value
     currS.value = nextS.value
-    if(sentences[sentenceIndex]==null){
-        sentenceIndex = 0
+    if (sentences[sentenceIndex.value] == null) {
+      sentenceIndex.value = 0
     }
-    nextS.value = sentences[sentenceIndex]
+    nextS.value = sentences[sentenceIndex.value]
     checkWidthStatus()
     rollAnimation()
   }
@@ -354,7 +357,7 @@ defineExpose({ play })
 <style scoped>
 .container {
   display: grid;
-  display: grid;
+  grid-auto-columns: 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   gap: 0px;
 }

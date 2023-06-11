@@ -230,6 +230,7 @@ watch(
   grid-auto-columns: 1fr;
   gap: 5px;
   height: 100%;
+  align-items: center;
 }
 
 .woodblockStyle {

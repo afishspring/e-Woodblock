@@ -2,7 +2,7 @@
   <div style="height: -webkit-fill-available;">
     <el-container style="height: -webkit-fill-available;">
       <el-header>
-        <div v-show="!mindfulModel">
+        <div v-show="!mindfulModel" style="margin-top:25px">
           <HomePage @timerModelSet="timerModelChange" />
         </div>
       </el-header>

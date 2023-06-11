@@ -6,7 +6,7 @@
 
     <div class="counterContainer">
       <van-switch v-model="timerModel" @change="timerModelSet" active-color="rgba(217, 217, 217, 0.3)"
-        inactive-color="rgba(217, 217, 217, 0.3)" size="18vw">
+        inactive-color="rgba(217, 217, 217, 0.3)" size="12vw">
         <template #node>
           <div class="icon-wrapper">
             <img :src="countup" v-if="timerModel">
@@ -15,6 +15,8 @@
         </template>
       </van-switch>
     </div>
+
+    <Cookie/>
 
     <el-drawer v-model="menuDrawer" title="I am the title" :with-header="false" direction="ltr" size="45%"
       style="background-color: #445E60;">
@@ -25,6 +27,7 @@
 
 <script setup name="HomePage">
 import Personal from './Personal.vue'
+import Cookie from '@/components/Cookie.vue'
 import {ref}from 'vue'
 import personal from "@/assets/personal.svg"
 import countup from '@/assets/countup.svg'
@@ -43,6 +46,7 @@ const timerModelSet = () => {
 .navigation {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 15px;
   margin-top: 10px;
 }
 
