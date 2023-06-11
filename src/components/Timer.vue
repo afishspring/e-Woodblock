@@ -9,7 +9,7 @@
       <span class="timer">: 00</span>
     </div>
     <div class="countDown" v-else>
-      <van-count-down :time="time" @change="fillZero">
+      <van-count-down :time="time" @change="fillZero" @finish="cookieReward">
         <template #default="timeData">
           <span :class="[{ timer: true }, { passed: hourPassed }]">{{ timeData.hours }}</span>
           <span :class="[{ timer: true }, { passed: hourPassed }]">:</span>
@@ -25,11 +25,11 @@
 <script setup>
 import { ref, defineProps, watch } from 'vue'
 import selfTimer from '@/components/Self-Timer.vue'
-
+import { showDialog } from 'vant'
 const timerStart = ref(null)
 watch(() => props.mindfulModel, (newValue, oldValue) => {
   if (props.countModel) {
-    newValue?timerStart.value.startTimer():timerStart.value.stopTimer()
+    newValue ? timerStart.value.startTimer() : timerStart.value.stopTimer()
     timerStart.value.resetTimer()
   }
 }), { immediate: true }
@@ -82,6 +82,16 @@ const filter = (type, options) => {
 const refreshTimer = () => {
   time.value = (currentTime.value * 60 + 1) * 1000
 }
+
+const cookieReward = () => {
+  showDialog({
+    message: '奖励金币100',
+    theme: 'round-button',
+    confirmButtonColor: "cadetblue"
+  }).then(() => {
+    // on close
+  });
+}
 </script>
 
 <style scoped>
@@ -131,7 +141,7 @@ const refreshTimer = () => {
   display: none;
 }
 
-.countDown:deep(.van-count-down){
+.countDown:deep(.van-count-down) {
   line-height: 1;
 }
 </style>
