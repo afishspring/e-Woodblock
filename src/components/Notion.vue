@@ -1,35 +1,47 @@
 <template>
-  <div>
-    <el-image class="lotus" :src="lotus" fit="contain" />
-    <div class="box">
-      <div class="mask">
-        <div>今日已念{{ lectionName }}{{ readSentence }}句</div>
-        <div>今天是你正念的第{{ dayNum }}天</div>
-        <div>继续加油</div>
-      </div>
+  <!-- <el-image class="lotus" :src="lotus" fit="contain" /> -->
+  <div class="box">
+    <div class="mask">
+      <el-carousel :interval="3000" :loop="true" height="15vh">
+        <el-carousel-item v-for="item in 3" :key="item">
+          <div style="margin:auto">
+            <div>今日已念{{ props.lectionName }}{{ props.readSentence }}句</div>
+            <div>今天是你正念的第{{ item }}天</div>
+            <div>继续加油</div>
+          </div>
+        </el-carousel-item>
+      </el-carousel>
     </div>
   </div>
 </template>
 
 <script setup name="Notion">
-import { ref } from 'vue'
+import { ref, defineProps } from 'vue'
 import lotus from '../assets/lotus.svg'
-const lectionName = ref("《金刚经》")
-const readSentence = ref(333)
-const dayNum = ref(1)
+const props = defineProps({
+  lectionName: {
+    type: String,
+    default: "《金刚经》"
+  },
+  readSentence: {
+    type: Number,
+    default: 333
+  },
+  dayNum: {
+    type: Number,
+    default: 1
+  }
+})
+
 </script>
 
 <style scoped>
 * {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   font-family: 'Microsoft YaHei UI';
   font-style: normal;
   font-weight: 400;
-  font-size: 13px;
-  line-height: 17px;
+  font-size: 16px;
+  line-height: 1.5;
   letter-spacing: 0.12em;
 
   color: #FFFFFF;
@@ -37,14 +49,14 @@ const dayNum = ref(1)
 }
 
 .lotus {
-  height: 30%;
-  width: 30%;
+  height: 30px;
+  width: 30px;
 }
 
 .box {
-  width: 62vw;
-  height: 12.5vh;
-
+  width: 80vw;
+  height: 15vh;
+  margin: auto;
   box-sizing: border-box;
   padding: 2px;
   border-radius: 28px;
@@ -54,14 +66,12 @@ const dayNum = ref(1)
 .mask {
   width: 100%;
   height: 100%;
-
+  text-align: center;
   border-radius: 28px;
   background-color: #5C6666;
+}
 
+.el-carousel__item{
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-
 }
 </style>
