@@ -82,7 +82,7 @@ const card = ref([
   },
   {
     name: "木鱼",
-    url: require("@/assets/woodblock-2.png"),
+    url: require("@/assets/woodblock-2.svg"),
     price: 150,
     buy: false
   },
