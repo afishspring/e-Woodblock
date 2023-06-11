@@ -353,7 +353,6 @@ defineExpose({ play })
 
 <style scoped>
 .container {
-  height: 100vh;
   display: grid;
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;

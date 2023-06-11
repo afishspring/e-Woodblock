@@ -1,5 +1,5 @@
 <template>
-    <img src="../assets/adjustment.png" @click="menuDrawer = true">
+  <img src="../assets/adjustment.png" @click="menuDrawer = true">
   <el-drawer class="ad-drawer" v-model="menuDrawer" title="I am the title" :with-header="false" direction="btt"
     size="85.75%" style="background-color: #445E60;border-radius: 10px">
     <div class="setting-box">
@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-import { defineEmits,defineExpose,ref, watch,getCurrentInstance } from 'vue'
+import { defineEmits, defineExpose, ref, watch, getCurrentInstance } from 'vue'
 
 
 const menuDrawer = ref(false)
@@ -96,8 +96,8 @@ const columns1 = [
 ];
 const columns2 = [
   { text: '0.25s', value: '0.25s' },
-  { text: '0.5s', value: '0.5s'},
-  { text: '0.75s', value: '0.75s'},
+  { text: '0.5s', value: '0.5s' },
+  { text: '0.75s', value: '0.75s' },
   { text: '1s', value: '1s' },
   { text: '2s', value: '2s' },
 ]
@@ -175,11 +175,11 @@ defineExpose({
   fieldValue4,
   music,
   fieldValue6,
-  ifAuto })
+  ifAuto
+})
 </script>
 
 <style scoped>
-
 #button-group1 {
   position: relative;
   display: block;
@@ -230,7 +230,7 @@ defineExpose({
   border-color: rgb(207, 213, 214);
 }
 
-.container::v-deep .van-cell__title.van-field__label {
+.container:deep(.van-cell__title.van-field__label) {
   width: auto;
   background-color: #445E60;
   color: rgba(207, 213, 214);
@@ -238,19 +238,19 @@ defineExpose({
   text-align: left;
 }
 
-.container::v-deep .van-cell {
+.container:deep(.van-cell) {
   background-color: #445E60;
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.4);
   padding: 14px 0 12.5px 10px;
   color: rgba(207, 213, 214);
 }
 
-.container::v-deep .van-cell:after {
+.container:deep(.van-cell:after) {
   position: relative;
 
 }
 
-.container::v-deep .van-field__control {
+.container:deep(.van-field__control) {
   text-align: right;
   color: rgba(255, 255, 255, 0.74);
 }

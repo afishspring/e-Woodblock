@@ -130,4 +130,8 @@ const refreshTimer = () => {
 .timerPicker:deep(.van-picker__frame) {
   display: none;
 }
+
+.countDown:deep(.van-count-down){
+  line-height: 1;
+}
 </style>
