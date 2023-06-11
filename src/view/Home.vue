@@ -31,8 +31,8 @@ import HomePage from '@/components/HomePage.vue'
 import WoodBlock from '@/components/WoodBlock.vue'
 import { User } from "@element-plus/icons-vue"
 import AdjustmentPage from "@/view/AdjustmentPage.vue"
-import buddha from "@/assets/Buddha.png"
-import exit from "@/assets/exit.png"
+import buddha from "@/assets/Buddha.svg"
+import exit from "@/assets/exit.svg"
 
 const adjComp = ref(null)
 const wordNum = ref(1)

@@ -26,9 +26,9 @@
 <script setup name="HomePage">
 import Personal from './Personal.vue'
 import {ref}from 'vue'
-import personal from "@/assets/personal.png"
-import countup from '@/assets/countup.png'
-import countdown from '@/assets/countdown.png'
+import personal from "@/assets/personal.svg"
+import countup from '@/assets/countup.svg'
+import countdown from '@/assets/countdown.svg'
 const menuDrawer = ref(false)
 
 const timerModel=ref(false)

@@ -34,10 +34,10 @@
 
 <script setup name="Personal">
 import { reactive, toRefs } from "vue";
-import historyImg from "../assets/history.png";
-import settingImg from "../assets/setting.png";
-import helpImg from "../assets/help.png";
-import storeImg from "../assets/store.png";
+import historyImg from "../assets/history.svg";
+import settingImg from "../assets/setting.svg";
+import helpImg from "../assets/help.svg";
+import storeImg from "../assets/store.svg";
 
 const state = reactive({
   circleUrl:

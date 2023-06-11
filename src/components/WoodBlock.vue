@@ -11,7 +11,7 @@
     </div>
 
     <div></div>
-    <div style="display: flex; justify-content: center">
+    <div style="display: flex; justify-content: center;align-items: center;">
       <timer :countModel="props.timerModel" :mindfulModel="props.mindfulModel" />
     </div>
   </div>
@@ -21,7 +21,7 @@
 <script setup name="WoodBlock">
 import { ref, watch } from "vue";
 import { defineProps, getCurrentInstance } from "vue";
-import woodblockImg from "@/assets/Woodblock.png";
+import woodblockImg from "@/assets/woodblock.svg";
 import notion from "@/components/Notion.vue";
 import timer from "@/components/Timer.vue";
 import Lection from "@/components/Lection.vue";
@@ -227,9 +227,9 @@ watch(
 .container {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
+  grid-auto-columns: 1fr;
   gap: 5px;
   height: 100%;
-  justify-items: center;
 }
 
 .woodblockStyle {
@@ -268,5 +268,13 @@ watch(
   letter-spacing: 0.12em;
 
   color: rgba(255, 255, 255, 0.85);
+}
+
+.my-swipe .van-swipe-item {
+  color: #fff;
+  font-size: 20px;
+  line-height: 150px;
+  text-align: center;
+  background-color: #39a9ed;
 }
 </style>

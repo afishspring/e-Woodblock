@@ -27,10 +27,6 @@
 
 import { ref, watch, onBeforeUnmount, computed ,defineExpose} from 'vue';
 
-import startTimerImg from '@/assets/startTimer.png'
-import stopTimerImg from '@/assets/stopTimer.png'
-import resetTimerImg from '@/assets/resetTimer.png'
-
 const timer = ref(null);
 const time = ref(0);
 const hourPassed = ref(false)
@@ -96,7 +92,7 @@ defineExpose({
   font-family: 'Segoe UI Symbol';
   font-style: normal;
   font-weight: 400;
-  font-size: 60px;
+  font-size: 45px;
   line-height: 80px;
   letter-spacing: 0.16em;
   color: rgba(255, 255, 255, 0.86);
