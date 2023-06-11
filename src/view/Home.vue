@@ -7,7 +7,7 @@
         </div>
       </el-header>
       <el-main>
-        <WoodBlock :mindfulModel="mindfulModel" :ifAuto="ifAuto" :timerModel="timerModel" :speed="speed" :wordNum="wordNum" :music="music"/>
+        <WoodBlock :mindfulModel="mindfulModel" :playType="playType" :ifAuto="ifAuto" :timerModel="timerModel" :speed="speed" :wordNum="wordNum" :music="music" :lectionType="lectionType" :woodblockSound="woodblockSound"/>
       </el-main>
       <el-footer>
         <el-row :gutter="20">
@@ -39,6 +39,10 @@ const wordNum = ref(1)
 const ifAuto = ref(false)
 const speed = ref(1)
 const music = ref("");
+const lectionType = ref("金刚经")
+const playType = ref("循环佛经")
+const woodblockSound = ref("音效1")
+
 const onMenuDrawerClosed = () => {
   // 获取wordNum并将其转化为数字
   wordNum.value = parseInt(adjComp.value.wordNum)
@@ -52,6 +56,10 @@ const onMenuDrawerClosed = () => {
     speed.value = parseFloat(match[0]);
   }
   music.value = adjComp.value.music;
+  lectionType.value = adjComp.value.fieldValue3
+  playType.value = adjComp.value.fieldValue4
+  woodblockSound.value = adjComp.value.fieldValue6
+
   //👇
   //可以从这里获取AdjustmentPage的数据
 }

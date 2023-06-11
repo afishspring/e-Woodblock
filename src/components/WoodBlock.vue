@@ -2,7 +2,8 @@
   <div class="container">
     <div>
       <div v-show="mindfulModel">
-        <Lection :mindfulModel="props.mindfulModel" ref="childRef" :wordNum="props.wordNum" />
+        <Lection :mindfulModel="props.mindfulModel" ref="childRef" :wordNum="props.wordNum"
+          :lectionType="props.lectionType" :playType="props.playType" />
       </div>
       <div v-show="!mindfulModel">
         <notion />
@@ -20,25 +21,22 @@
 <script setup name="WoodBlock">
 import { ref, watch } from "vue";
 import { defineProps, getCurrentInstance } from "vue";
-
 import woodblockImg from "@/assets/woodblock.svg";
 import notion from "@/components/Notion.vue";
 import timer from "@/components/Timer.vue";
 import Lection from "@/components/Lection.vue";
-import woodblockMusic from "@/assets/wood-block-single-hit.mp3";
+import sound2 from "@/assets/sound2.wav";
+import sound1 from "@/assets/sound1.mp3";
+import sound3 from "@/assets/sound3.wav"
 import birdMusic from "@/assets/bird.wav";
 import waterMusic from "@/assets/water.wav";
 import rainMusic from "@/assets/rain.wav";
 import fireMusic from "@/assets/fire.wav";
-const music = ref("");
+
 let childRef = ref(null);
-const beatWoodblock = () => {
-  if (props.mindfulModel == true) {
-    childRef.value.play();
-    const audio = new Audio(woodblockMusic);
-    audio.play();
-  }
-};
+
+
+
 const props = defineProps({
   //每次浮现的字数
   wordNum: {
@@ -69,19 +67,41 @@ const props = defineProps({
     type: String,
     default: "无",
   },
-});
-let interval = null; // 声明 interval 变量
-let backaudio1 = new Audio(waterMusic);
-let backaudio2 = new Audio(birdMusic);
-let backaudio3 = new Audio(rainMusic);
-let backaudio4 = new Audio(fireMusic);
-watch(
-  () => props.speed,
-  (newValue) => {
-    console.log(newValue);
+  lectionType: {
+    type: String,
+    default: "金刚经",
+  },
+  playType: {
+    type: String,
+    default: "循环佛经",
+  },
+  woodblockSound: {
+    type: String,
+    default: "音效1",
   }
-);
+});
 
+let interval = null; // 声明 interval 变量
+const backaudio1 = new Audio(waterMusic);
+const backaudio2 = new Audio(birdMusic);
+const backaudio3 = new Audio(rainMusic);
+const backaudio4 = new Audio(fireMusic);
+
+const beatWoodblock = () => {
+  if (props.mindfulModel == true) {
+    childRef.value.play();
+    let audio
+    if (props.woodblockSound == "音效1")
+      audio = new Audio(sound1)
+    else if (props.woodblockSound == "音效2") {
+      audio = new Audio(sound2)
+    }
+    else if (props.woodblockSound == "音效3") {
+      audio = new Audio(sound3)
+    }
+    audio.play()
+  }
+};
 //监听用户背景音选择
 
 // 监听用户是否进入专注页面
@@ -101,7 +121,7 @@ watch(
           if (props.ifAuto == false) {
             clearInterval(interval);
           }
-        }, 1000);
+        }, props.speed * 1000);
       }
       if (props.music == "水流") {
         backaudio1.currentTime = 0;
