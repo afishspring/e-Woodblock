@@ -370,6 +370,7 @@ defineExpose({ play })
   grid-auto-columns: 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   gap: 0px;
+  justify-items: center;
 }
 
 .lectionProcess {
