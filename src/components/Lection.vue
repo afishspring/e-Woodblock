@@ -1,5 +1,5 @@
 <template>
-  <div style="justify-items: center;display: grid;grid-template-rows: 1fr 50px 1fr;grid-auto-columns: 1fr;">
+  <div class="lectionContainer">
     <div class="container">
       <div id="lasttxt" style="opacity: 0;"
         :class="[{ txtArea: lastWidthStatus }, { 'txtArea-2': !lastWidthStatus }, { currtxt: roll }]">
@@ -14,7 +14,7 @@
       </div>
     </div>
     <div></div>
-    <div>《{{props.lectionType}}》   {{ sentenceIndex }}/{{ totalSentence }}</div>
+    <div class="lectionProcess">《{{ props.lectionType }}》&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ sentenceIndex }}/{{ totalSentence }}</div>
   </div>
 </template>
  
@@ -355,11 +355,30 @@ defineExpose({ play })
 </script>
 
 <style scoped>
+.lectionContainer {
+  justify-items: center;
+  display: grid;
+  grid-template-rows: 1fr 55px 1fr;
+  grid-auto-columns: 1fr;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 48px;
+  padding: 25px;
+}
+
 .container {
   display: grid;
   grid-auto-columns: 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   gap: 0px;
+}
+
+.lectionProcess {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FFFFFF;
 }
 
 .txtArea {
@@ -442,7 +461,6 @@ defineExpose({ play })
   letter-spacing: 0.16em;
   display: inline-block;
   color: #737373;
-
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 </style>
