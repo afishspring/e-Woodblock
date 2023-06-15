@@ -16,9 +16,9 @@
       </van-switch>
     </div>
 
-    <Cookie/>
+    <!-- <Cookie/> -->
 
-    <el-drawer v-model="menuDrawer" title="I am the title" :with-header="false" direction="ltr" size="45%"
+    <el-drawer v-model="menuDrawer" :with-header="false" direction="ltr" size="45%"
       style="background-color: #445E60;">
       <Personal />
     </el-drawer>
@@ -69,7 +69,7 @@ const timerModelSet = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: cadetblue;
+  background-color: rgb(128, 181, 128);
   border-radius: 5px;
   height:32px;
 }

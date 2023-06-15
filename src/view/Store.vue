@@ -1,53 +1,52 @@
 <template>
-  <van-nav-bar style="background-color: cadetblue;position: unset;" @click-left="returnHome">
-    <template #left>
-      <van-icon name="arrow-left" size="18" color="white" />
-    </template>
-    <template #title>
-      <div style="color: white;font-size: larger;">商店</div>
-    </template>
-    <template #right>
-      <cookie />
-    </template>
-  </van-nav-bar>
-
-  <div class="tabContainer">
-    <van-tabs v-model:active="active" type="card" swipeable color="cadetblue" background="cadetblue"
-      title-active-color="white" title-inactive-color="white" @change="tabPick">
-      <van-tab>
-        <template #title>
-          <div :class="[{ tabStyle: true }, { tabActive: active == 0 }]">木鱼样式</div>
-        </template>
-        <template #default>
-          <div class="cardCanvas">
-            <storeCard v-for="(item, index) in card" :key="index" :cardInfo="item" @click="detailShow(index)" />
-          </div>
-        </template>
-      </van-tab>
-      <van-tab>
-        <template #title>
-          <div :class="[{ tabStyle: true }, { tabActive: active == 1 }]">限时特惠</div>
-        </template>
-        <van-empty description="敬请期待" />
-      </van-tab>
-      <van-tab>
-        <template #title>
-          <div :class="[{ tabStyle: true }, { tabActive: active == 2 }]">环境声音</div>
-        </template>
-        <van-empty description="敬请期待" />
-      </van-tab>
-    </van-tabs>
-  </div>
-
-  <van-overlay :show="overlayShow" @click="overlayShow = false">
-    <div class="wrapper">
-      <van-swipe :initial-swipe="overlayIndex">
-        <van-swipe-item v-for="(item, index) in card" :key="index">
-          <storeCard :cardInfo="item" class="block" />
-        </van-swipe-item>
-      </van-swipe>
+  <div style="background-color: rgb(228,228,228);height: 100vh;">
+    <div class="toptab">
+      <el-icon class="return" @click="returnHome">
+        <ArrowLeft />
+      </el-icon>
+      <div class="title">商店</div>
+      <cookie style="position: relative;left: 16vw;width:fit-content;" />
     </div>
-  </van-overlay>
+
+    <div class="tabContainer">
+      <van-tabs v-model:active="active" type="card" swipeable color="#445e60" background="#445e60"
+        title-active-color="white" title-inactive-color="white" @change="tabPick">
+        <van-tab>
+          <template #title>
+            <div :class="[{ tabStyle: true }, { tabActive: active == 0 }]">木鱼样式</div>
+          </template>
+          <template #default>
+            <div class="cardCanvas">
+              <storeCard v-for="(item, index) in card" :key="index" :cardInfo="item" @click="detailShow(index)" />
+            </div>
+          </template>
+        </van-tab>
+        <van-tab>
+          <template #title>
+            <div :class="[{ tabStyle: true }, { tabActive: active == 1 }]">限时特惠</div>
+          </template>
+          <van-empty description="敬请期待" />
+        </van-tab>
+        <van-tab>
+          <template #title>
+            <div :class="[{ tabStyle: true }, { tabActive: active == 2 }]">环境声音</div>
+          </template>
+          <van-empty description="敬请期待" />
+        </van-tab>
+      </van-tabs>
+    </div>
+
+    <van-overlay :show="overlayShow" @click="overlayShow = false">
+      <div class="wrapper">
+        <van-swipe :initial-swipe="overlayIndex">
+          <van-swipe-item v-for="(item, index) in card" :key="index">
+            <storeCard :cardInfo="item" class="block" />
+          </van-swipe-item>
+        </van-swipe>
+      </div>
+    </van-overlay>
+
+  </div>
 </template>
 
 <script setup>
@@ -103,6 +102,39 @@ const detailShow = (cardIndex) => {
 </script>
 
 <style scoped>
+html,
+body {
+  background-color: rgb(228, 228, 228);
+}
+
+.toptab {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+
+  width: 100%;
+  height: 65px;
+  background: #445e60;
+}
+
+.return {
+  left: 3vh;
+  width: 23px;
+  height: 23px;
+}
+
+.title {
+  text-align: center;
+  height: 19px;
+  font-family: "Microsoft YaHei UI";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 19px;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+}
+
 .wrapper {
   display: flex;
   align-items: center;
@@ -117,7 +149,7 @@ const detailShow = (cardIndex) => {
 }
 
 .tabStyle {
-  background-color: cadetblue;
+  background-color: #445e60;
   border-radius: 20px;
   width: 100px;
   height: 30px;
@@ -128,7 +160,7 @@ const detailShow = (cardIndex) => {
 }
 
 .tabActive {
-  background-color: #5c6666;
+  background-color: rgb(128, 181, 128);
 }
 
 .tabContainer:deep(.van-tabs__wrap) {

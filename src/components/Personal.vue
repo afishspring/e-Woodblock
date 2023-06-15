@@ -52,6 +52,7 @@ const { circleUrl } = toRefs(state);
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  align-items: center;
   height: -webkit-fill-available;
 }
 

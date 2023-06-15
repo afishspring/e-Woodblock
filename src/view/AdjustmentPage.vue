@@ -327,7 +327,7 @@ defineExpose({
 }
 
 .container:deep(.el-slider__bar) {
-  background-color: cadetblue;
+  background-color: rgb(128, 181, 128);
 }
 
 .adjustment-title-div {
