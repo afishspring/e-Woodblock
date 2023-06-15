@@ -17,10 +17,11 @@
           </template>
         </van-cell>
 
-        <van-field v-model="speed" is-link readonly label="自动敲击时间间隔" @click="showPicker2 = true" />
-        <van-popup v-model:show="showPicker2" round position="bottom">
-          <van-picker :columns="columns2" @cancel="showPicker2 = false" @confirm="onConfirm2" />
-        </van-popup>
+        <van-cell id="speedSet" title="自动敲击时间间隔" :value="trueSpeed + 's'" />
+        <div style="width: 75vw;margin:auto">
+          <el-slider v-model="speed" :marks="marks" :min="1" :max="5" :show-tooltip="false" />
+        </div>
+
       </div>
       <div class="adjustment-title-div">
         <div class="adjustment-title">界面设置</div>
@@ -61,11 +62,11 @@
       <div class="container">
         <van-field v-model="music" is-link readonly label="背景音" @click="showPicker5 = true" />
         <van-popup v-model:show="showPicker5" round position="bottom">
-          <van-picker :columns="columns5" @cancel="showPicker5 = false" @confirm="onConfirm5" />
+          <van-picker :columns="columns5" @cancel="showPicker5 = false" @confirm="onConfirm5" @change="tryBGM" />
         </van-popup>
         <van-field v-model="fieldValue6" is-link readonly label="音效" @click="showPicker6 = true" />
         <van-popup v-model:show="showPicker6" round position="bottom">
-          <van-picker :columns="columns6" @cancel="showPicker6 = false" @confirm="onConfirm6" />
+          <van-picker :columns="columns6" @cancel="showPicker6 = false" @confirm="onConfirm6" @change="trySound" />
         </van-popup>
       </div>
     </div>
@@ -73,8 +74,31 @@
 </template>
 
 <script setup>
-import { defineEmits, defineExpose, ref, watch, getCurrentInstance } from 'vue'
+import { defineEmits, defineExpose, ref, watch, getCurrentInstance, reactive, computed } from 'vue'
+import sound1 from "@/assets/sound1.mp3"
+import sound2 from "@/assets/sound2.wav"
+import sound3 from "@/assets/sound3.wav"
+import birdMusic from "@/assets/bird.wav"
+import waterMusic from "@/assets/water.wav"
+import rainMusic from "@/assets/rain.wav"
+import fireMusic from "@/assets/fire.wav"
 
+const backaudio1 = new Audio(waterMusic);
+const backaudio2 = new Audio(birdMusic);
+const backaudio3 = new Audio(rainMusic);
+const backaudio4 = new Audio(fireMusic);
+
+const marks = reactive({
+  1: '0.25s',
+  2: '0.5s',
+  3: '0.75s',
+  4: '1s',
+  5: '2s'
+})
+
+const trueSpeed = computed(() => {
+  return (speed.value + 3 * Math.exp(2 * (speed.value - 5))).toFixed(0) * 0.25
+});
 
 const menuDrawer = ref(false)
 const emits = defineEmits(['menuDrawerClosed']);
@@ -94,13 +118,13 @@ const columns1 = [
   { text: '4', value: '4' },
   { text: '5', value: '5' },
 ];
-const columns2 = [
-  { text: '0.25s', value: '0.25s' },
-  { text: '0.5s', value: '0.5s' },
-  { text: '0.75s', value: '0.75s' },
-  { text: '1s', value: '1s' },
-  { text: '2s', value: '2s' },
-]
+// const columns2 = [
+//   { text: '0.25s', value: '0.25s' },
+//   { text: '0.5s', value: '0.5s' },
+//   { text: '0.75s', value: '0.75s' },
+//   { text: '1s', value: '1s' },
+//   { text: '2s', value: '2s' },
+// ]
 
 const columns3 = [
   { text: '金刚经', value: '金刚经' },
@@ -127,7 +151,7 @@ const columns6 = [
 ]
 
 const wordNum = ref('1')
-const speed = ref('1s')
+const speed = ref(4)
 const fieldValue3 = ref('金刚经')
 const fieldValue4 = ref('循环佛经')
 const music = ref('无')
@@ -135,7 +159,7 @@ const fieldValue6 = ref('音效1')
 const ifAuto = ref(false)
 
 const showPicker1 = ref(false)
-const showPicker2 = ref(false)
+// const showPicker2 = ref(false)
 const showPicker3 = ref(false)
 const showPicker4 = ref(false)
 const showPicker5 = ref(false)
@@ -148,10 +172,10 @@ const onConfirm1 = ({ selectedOptions }) => {
   showPicker1.value = false
   wordNum.value = selectedOptions[0].text;
 };
-const onConfirm2 = ({ selectedOptions }) => {
-  showPicker2.value = false;
-  speed.value = selectedOptions[0].text
-};
+// const onConfirm2 = ({ selectedOptions }) => {
+//   showPicker2.value = false;
+//   speed.value = selectedOptions[0].text
+// };
 const onConfirm3 = ({ selectedOptions }) => {
   showPicker3.value = false
   fieldValue3.value = selectedOptions[0].text;
@@ -163,11 +187,48 @@ const onConfirm4 = ({ selectedOptions }) => {
 const onConfirm5 = ({ selectedOptions }) => {
   showPicker5.value = false
   music.value = selectedOptions[0].text;
+  backaudio1.pause();
+  backaudio2.pause();
+  backaudio3.pause();
+  backaudio4.pause();
 };
 const onConfirm6 = ({ selectedOptions }) => {
   showPicker6.value = false
   fieldValue6.value = selectedOptions[0].text;
 };
+const tryBGM = (bgm) => {
+  backaudio1.pause();
+  backaudio2.pause();
+  backaudio3.pause();
+  backaudio4.pause();
+  let music = bgm.selectedValues[0]
+  if (music == "水流") {
+    backaudio1.currentTime = 0;
+    backaudio1.play();
+  } else if (music == "鸟鸣") {
+    backaudio2.currentTime = 0;
+    backaudio2.play();
+  } else if (music == "雨天") {
+    backaudio3.currentTime = 0;
+    backaudio3.play();
+  } else if (music == "篝火") {
+    backaudio4.currentTime = 0;
+    backaudio4.play();
+  }
+}
+const trySound = (beatSound) => {
+  let sound = beatSound.selectedValues[0]
+  let audio
+  if (sound == 1)
+    audio = new Audio(sound1)
+  else if (sound == 2) {
+    audio = new Audio(sound2)
+  }
+  else if (sound == 3) {
+    audio = new Audio(sound3)
+  }
+  audio.play()
+}
 defineExpose({
   wordNum,
   speed,
@@ -247,12 +308,26 @@ defineExpose({
 
 .container:deep(.van-cell:after) {
   position: relative;
-
 }
 
 .container:deep(.van-field__control) {
   text-align: right;
   color: rgba(255, 255, 255, 0.74);
+}
+
+.container:deep(.el-slider__button) {
+  border: none;
+}
+
+#speedSet {
+  background-color: #445E60;
+  border-bottom: none;
+  padding: 14px 0 12.5px 10px;
+  color: rgba(207, 213, 214);
+}
+
+.container:deep(.el-slider__bar) {
+  background-color: cadetblue;
 }
 
 .adjustment-title-div {

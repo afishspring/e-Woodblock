@@ -14,7 +14,8 @@
       </div>
     </div>
     <div></div>
-    <div class="lectionProcess">《{{ props.lectionType }}》&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ sentenceIndex }}/{{ totalSentence }}</div>
+    <div class="lectionProcess">《{{ props.lectionType }}》&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ sentenceIndex
+    }}/{{ totalSentence }}</div>
   </div>
 </template>
  
@@ -294,8 +295,7 @@ watch(() => props.lectionType, (newValue) => {
   else if (newValue == '维摩诘经')
     lection = lectionset[3]
   totalSentence.value = lection.length
-  console.log(newValue)
-  console.log(lection)
+  sentenceIndex.value = 1
   sentences = splitSentence(lection)
 }), { immediate: true }
 

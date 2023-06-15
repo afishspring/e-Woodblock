@@ -3,11 +3,9 @@
   <div class="box">
     <div class="mask">
       <el-carousel :interval="3000" :loop="true" height="15vh">
-        <el-carousel-item v-for="item in 3" :key="item">
+        <el-carousel-item v-for="(item, index) in notionTXT" :key="index">
           <div style="margin:auto">
-            <div>今日已念{{ props.lectionName }}{{ props.readSentence }}句</div>
-            <div>今天是你正念的第{{ item }}天</div>
-            <div>继续加油</div>
+            <div>{{ item }}</div>
           </div>
         </el-carousel-item>
       </el-carousel>
@@ -16,7 +14,7 @@
 </template>
 
 <script setup name="Notion">
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, computed } from 'vue'
 import lotus from '../assets/lotus.svg'
 const props = defineProps({
   lectionName: {
@@ -33,6 +31,15 @@ const props = defineProps({
   }
 })
 
+const notionTXT = computed(
+  () => {
+    return [
+      "今日已念" + props.lectionName + props.readSentence + "句",
+      "今天是你正念的第" + props.dayNum + "天",
+      "继续加油"
+    ]
+  }
+)
 </script>
 
 <style scoped>
@@ -71,7 +78,7 @@ const props = defineProps({
   background-color: #5C6666;
 }
 
-.el-carousel__item{
+.el-carousel__item {
   display: flex;
 }
 </style>

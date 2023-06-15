@@ -7,7 +7,8 @@
         </div>
       </el-header>
       <el-main>
-        <WoodBlock :mindfulModel="mindfulModel" :playType="playType" :ifAuto="ifAuto" :timerModel="timerModel" :speed="speed" :wordNum="wordNum" :music="music" :lectionType="lectionType" :woodblockSound="woodblockSound"/>
+        <WoodBlock :mindfulModel="mindfulModel" :playType="playType" :ifAuto="ifAuto" :timerModel="timerModel"
+          :speed="speed" :wordNum="wordNum" :music="music" :lectionType="lectionType" :woodblockSound="woodblockSound" />
       </el-main>
       <el-footer>
         <el-row :gutter="20">
@@ -37,7 +38,7 @@ import exit from "@/assets/exit.svg"
 const adjComp = ref(null)
 const wordNum = ref(1)
 const ifAuto = ref(false)
-const speed = ref(1)
+const speed = ref(4)
 const music = ref("");
 const lectionType = ref("金刚经")
 const playType = ref("循环佛经")
@@ -50,11 +51,12 @@ const onMenuDrawerClosed = () => {
   ifAuto.value = adjComp.value.ifAuto
   // 获取speed并将其转化为数字
   speed.value = adjComp.value.speed
-  const regex = /(\d+(\.\d+)?)/;
-  const match = speed.value.match(regex);
-  if (match) {
-    speed.value = parseFloat(match[0]);
-  }
+  // const regex = /(\d+(\.\d+)?)/;
+  // const match = speed.value.match(regex);
+  // if (match) {
+  //   speed.value = parseFloat(match[0]);
+  // }
+  speed.value = (speed.value + 3 * Math.exp(2 * (speed.value - 5))).toFixed(0) * 0.25
   music.value = adjComp.value.music;
   lectionType.value = adjComp.value.fieldValue3
   playType.value = adjComp.value.fieldValue4
