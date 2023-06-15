@@ -2,7 +2,7 @@
   <!-- <el-image class="lotus" :src="lotus" fit="contain" /> -->
   <div class="box">
     <div class="mask">
-      <el-carousel :interval="3000" :loop="true" height="15vh">
+      <el-carousel :interval="5000" :loop="true" height="15vh">
         <el-carousel-item v-for="(item, index) in notionTXT" :key="index">
           <div style="margin:auto">
             <div>{{ item }}</div>

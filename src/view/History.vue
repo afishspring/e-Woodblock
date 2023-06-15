@@ -139,30 +139,28 @@ export default defineComponent({
 }
 
 .toptab {
-  position: absolute;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+
   width: 100%;
-  height: 52px;
-  left: 0px;
-  top: 0px;
+  height: 65px;
   background: #445e60;
 }
 
 .return {
   left: 3vh;
-  top: 3vh;
   width: 23px;
   height: 23px;
 }
+
 .title {
-  position: absolute;
-  width: 100px;
+  text-align: center;
   height: 19px;
-  left: calc(50% - 65px / 2 + 0.5px);
-  top: 25px;
   font-family: "Microsoft YaHei UI";
   font-style: normal;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 19px;
   line-height: 19px;
   letter-spacing: 0.1em;
   color: #ffffff;

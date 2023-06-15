@@ -9,10 +9,10 @@
       </div>
     </div>
     <div class="cardPrice">
-      <div v-if="props.cardInfo.buy" style="line-height: 32px;">
+      <div v-if="props.cardInfo.buy" style="line-height: 32px;color: #848484;">
         已解锁
       </div>
-      <div v-else style="line-height: 32px;">
+      <div v-else style="line-height: 32px;color: #848484;">
         {{ props.cardInfo.price }}
         <img :src="cookie">
       </div>
@@ -51,13 +51,19 @@ const props = defineProps({
   flex-direction: column;
   align-items: center;
   width: 100%;
-  background-color: rgb(222, 222, 222);
+  background-color: currentColor;
   border-radius: 10px;
 }
 
 .cardImg {
   height: 120px;
   margin-top: 8px;
+  width: 40vw;
+  border: solid 2px lightgray;
+  border-radius: 15px;
+  box-sizing: content-box;
+  padding: 15px 0;
+  background-color: #a5a5a59e;
 }
 
 .cardImg>img {
@@ -68,9 +74,9 @@ const props = defineProps({
 
 .cardName {
   text-align: center;
-  margin-top: 10px;
-  font-size: 25px;
-  line-height: 3;
+  margin:10px 0;
+  font-size: 16px;
+  line-height: 1.5;
   color: black;
 }
 

@@ -3,7 +3,7 @@
     <el-container style="height: -webkit-fill-available;">
       <el-header>
         <div v-show="!mindfulModel" style="margin-top:25px">
-          <HomePage @timerModelSet="timerModelChange" />
+          <Navigation @timerModelSet="timerModelChange" />
         </div>
       </el-header>
       <el-main>
@@ -28,7 +28,7 @@
 <script setup>
 
 import { ref, defineProps } from 'vue'
-import HomePage from '@/components/HomePage.vue'
+import Navigation from '@/components/Navigation.vue'
 import WoodBlock from '@/components/WoodBlock.vue'
 import { User } from "@element-plus/icons-vue"
 import AdjustmentPage from "@/view/AdjustmentPage.vue"
