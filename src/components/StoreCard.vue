@@ -9,12 +9,12 @@
       </div>
     </div>
     <div class="cardPrice">
-      <div v-if="props.cardInfo.buy" style="line-height: 32px;color: #848484;">
+      <div v-if="props.cardInfo.buy" style="color: #848484;">
         已解锁
       </div>
-      <div v-else style="line-height: 32px;color: #848484;">
+      <div v-else style="color: #848484;align-items: center;display: flex;">
         {{ props.cardInfo.price }}
-        <img :src="cookie">
+        <img :src="cookie" style="height: 32px;">
       </div>
 
     </div>

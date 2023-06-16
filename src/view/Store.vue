@@ -5,7 +5,10 @@
         <ArrowLeft />
       </el-icon>
       <div class="title">商店</div>
-      <cookie style="position: relative;left: 16vw;width:fit-content;" />
+      <div class="money">
+        <cookie />
+      </div>
+
     </div>
 
     <div class="tabContainer">
@@ -135,6 +138,15 @@ body {
   color: #ffffff;
 }
 
+.money {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  right: 3vw;
+}
+
 .wrapper {
   display: flex;
   align-items: center;
@@ -144,7 +156,7 @@ body {
 
 .block {
   position: relative;
-  left: 25%;
+  left: 27%;
   margin-bottom: 50px;
 }
 
